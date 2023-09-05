@@ -1,0 +1,164 @@
+.header {
+    margin: 0 auto;
+    padding: 18px 0;
+    max-width: 1280px;
+  }
+  
+  .header__container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 70px;
+    padding-right: 70px;
+  }
+  
+  .header__container-auth {
+    display: flex;
+    flex-direction: column;
+    max-width: 396px;
+    margin: 0 auto;
+    padding-top: 52px;
+  }
+  
+  .header__title {
+    font-size: 24px;
+    font-weight: 500;
+    margin: 0;
+    padding-top: 40px;
+    padding-bottom: 24px;
+  }
+  
+  .header__logo {
+    background: url('../../images/logo.svg') no-repeat;
+    height: 38px;
+    width: 38px;
+    max-width: 38px;
+    max-height: 38px;
+    cursor: pointer;
+  }
+
+  .header__logo:hover {
+    opacity: 60%;
+  }
+  
+  .header__btn {
+    font-size: 13px;
+    line-height: 16px;
+    font-weight: 500;
+    background-color: #202020;
+    color: white;
+    border: 0;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: none;
+  }
+
+  .header__btn:hover {
+    opacity: 60%;
+  }
+  
+  .header__btn_field_register {
+    padding: 0 30px 0 0;
+    margin: 0;
+  }
+  
+  .header__btn_field_login {
+    padding: 8px 20px;
+    background-color: #3ddc84;
+    border-radius: 3px;
+    color: black;
+  }
+  
+  .header__btn_field_account {
+    background-color: #313131;
+    color: white;
+    width: 100px;
+    height: 32px;
+    border-radius: 20px;
+    display: inline-block;
+    text-align: center;
+    line-height: 32px;
+  }
+  
+  .header__btn_field_active {
+    border-bottom: 1px solid white;
+    padding-bottom: 8px;
+  }
+  
+  .header__btn_field_films:first-child {
+    margin-right: 16px;
+    margin-left: 62px;
+    margin-top: 7px;
+  }
+  
+  .header__nav-button {
+    display: none;
+  }
+
+  @media screen and (max-width: 768px) {
+    .header__container {
+        padding-left: 30px;
+        padding-right: 30px;
+      }
+
+      .header__btn {
+        font-size: 12px;
+      }
+  }
+
+  @media screen and (max-width: 520px) {
+    .header__container {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .header__btn {
+        font-size: 10px;
+        line-height: 16px;
+      }
+      .header__btn_field_login {
+        padding: 5px 12px;
+      }
+      .header__btn_field_register {
+        padding-right: 15px;
+      }
+  }
+
+  @media screen and (max-width: 768px) {
+    .header__btn-container-movies {
+      display: none;
+    }
+
+    .header__nav-button {
+      display: block;
+      background: url('../../images/open-nav.svg');
+      width: 28px;
+      height: 23px;
+      margin-right: 8px;
+      border: none;
+    }
+
+    .header__container-auth {
+      padding-top: 214px;
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    .header__nav-button {
+        width: 24px;
+    }
+  }
+
+  @media screen and (max-width: 440px) {
+    .header__container-auth {
+      display: flex;
+      align-items: center;
+      padding-top: 38px;
+    }
+
+    .header__title {
+      padding-top: 51px;
+      padding-bottom: 62px;
+    }
+  }

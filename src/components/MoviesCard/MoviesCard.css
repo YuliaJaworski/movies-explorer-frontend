@@ -1,0 +1,120 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    max-width: 360px;
+  }
+  
+  .card__favorite {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background-image: url(../../images/save3.svg);
+    background-repeat: no-repeat;
+    border: none;
+    width: 21px;
+    height: 21px;
+    background-color: transparent;
+  }
+  
+  .card__image {
+    width: 100%;
+    object-fit: cover;
+    overflow: hidden;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .card__description {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    margin: 14px auto 0;
+  }
+  
+  .card__name {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+    max-width: 250px;
+    padding-left: 14px;
+  }
+  
+  .card__length {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 400;
+    color: #8B8B8B;
+    background-color: #2F2F2F;
+    width: 52px;
+    height: 18px;
+    border-radius: 3px;
+    text-align: center;
+    line-height: 18px;
+    margin-right: 14px;
+  }
+  
+  .card-load {
+    padding-bottom: 160px;
+    padding-top: 33px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .card-load__button {
+    background: none;
+    border: 1px solid #424242;
+    width: 320px;
+    height: 36px;
+    text-align: center;
+    color: white;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  .card-load__button:hover {
+    opacity: 60%;
+  }
+
+  @media screen and (max-width: 768px) {
+    .card__name {
+      padding-left: 0;
+      font-size: 13px;
+    }
+
+    .card__length {
+      margin-right: 0;
+    }
+
+    .card__description {
+      margin-top: 29px;
+    }
+
+    .card-load {
+      padding-bottom: 161px;
+      padding-top: 17px;
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    .card__favorite {
+      top: 10px;
+      right: 10px;
+    }
+
+    .card__name {
+      font-size: 12px;
+    }
+
+    .card__description {
+      margin-top: 17px;
+    }
+
+    .card-load {
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+  }

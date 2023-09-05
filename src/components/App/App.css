@@ -1,0 +1,21 @@
+body {
+    margin: 0;
+  }
+  
+  .page {
+    background-color: #202020;
+    margin: 0 auto;
+    padding: 0;
+    color: white;
+    font-family: 'Inter', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .main {
+    min-height: calc(100vh - 165px);
+  }
+  
+  .main-full-scrin {
+    min-height: 100vh;
+  }
