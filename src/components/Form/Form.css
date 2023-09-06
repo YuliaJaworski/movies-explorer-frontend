@@ -64,6 +64,7 @@
   .form__postscriptum-link {
     color: #4285F4;
     cursor: pointer;
+    text-decoration: none;
   }
 
   .form__postscriptum-link:hover {

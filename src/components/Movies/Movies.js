@@ -24,18 +24,18 @@ function Movies() {
     <main className="main">
       <SearchForm />
       <MoviesCardList>
-        <MoviesCard filmName='33 слова о дизайне' filmImage={filmDesign} filmDuration='1ч17м' />
-        <MoviesCard filmName='Киноальманах "100 лет дизайна"' filmImage={filmKino} filmDuration='1ч17м' />
-        <MoviesCard filmName='В погоне за Бенкси' filmImage={filmBanksi} filmDuration='1ч17м' />
-        <MoviesCard filmName='Баския: Взрыв реальности' filmImage={filmBaskia} filmDuration='1ч17м' />
-        <MoviesCard filmName='Бег это свобода' filmImage={filmSvoboda} filmDuration='1ч17м' />
-        <MoviesCard filmName='Книготорговцы' filmImage={filmBook} filmDuration='1ч17м' />
-        <MoviesCard filmName='Когда я думаю о Германии ночью' filmImage={filmGermany} filmDuration='1ч17м' />
-        <MoviesCard filmName='Gimme Danger: История Игги и The Stooges' filmImage={filmGimme} filmDuration='1ч17м' />
-        <MoviesCard filmName='Дженис: Маленькая девочка грустит' filmImage={filmGenise} filmDuration='1ч17м' />
-        <MoviesCard filmName='Соберись перед прыжком' filmImage={filmJump} filmDuration='1ч17м' />
-        <MoviesCard filmName='Пи Джей Харви: A dog called money' filmImage={filmHarvy} filmDuration='1ч17м' />
-        <MoviesCard filmName='По волнам: Искусство звука в кино' filmImage={filmWave} filmDuration='1ч17м' />
+        <MoviesCard filmName='33 слова о дизайне' filmImage={filmDesign} filmDuration='1ч17м' nameButton='save' />
+        <MoviesCard filmName='Киноальманах "100 лет дизайна"' filmImage={filmKino} filmDuration='1ч17м' nameButton='save' />
+        <MoviesCard filmName='В погоне за Бенкси' filmImage={filmBanksi} filmDuration='1ч17м' nameButton='save' />
+        <MoviesCard filmName='Баския: Взрыв реальности' filmImage={filmBaskia} filmDuration='1ч17м' nameButton='save' />
+        <MoviesCard filmName='Бег это свобода' filmImage={filmSvoboda} filmDuration='1ч17м' nameButton='save' />
+        <MoviesCard filmName='Книготорговцы' filmImage={filmBook} filmDuration='1ч17м' nameButton='save' />
+        <MoviesCard filmName='Когда я думаю о Германии ночью' filmImage={filmGermany} filmDuration='1ч17м' nameButton='save' />
+        <MoviesCard filmName='Gimme Danger: История Игги и The Stooges' filmImage={filmGimme} filmDuration='1ч17м' nameButton='save' />
+        <MoviesCard filmName='Дженис: Маленькая девочка грустит' filmImage={filmGenise} filmDuration='1ч17м' nameButton='save' />
+        <MoviesCard filmName='Соберись перед прыжком' filmImage={filmJump} filmDuration='1ч17м' nameButton='save' />
+        <MoviesCard filmName='Пи Джей Харви: A dog called money' filmImage={filmHarvy} filmDuration='1ч17м' nameButton='save' />
+        <MoviesCard filmName='По волнам: Искусство звука в кино' filmImage={filmWave} filmDuration='1ч17м' nameButton='save' />
       </MoviesCardList>
       <Preloader />
     </main>

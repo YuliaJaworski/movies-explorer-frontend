@@ -12,7 +12,7 @@ function NavBar({ isOpen, onClose }) {
           <NavLink to='/movies' className={({isActive}) => `nav-link__link ${isActive ? "nav-link__link_active" : ""}`}>Фильмы</NavLink>
           <NavLink to='/saved-movies' className={({isActive}) => `nav-link__link ${isActive ? "nav-link__link_active" : ""}`}>Сохранённые фильмы</NavLink>
         </nav>
-        <Link to='/profile' className='header__btn_field_account nav-link__account'>Аккаунт</Link>
+        <Link to='/profile' className='nav-link__account'>Аккаунт</Link>
       </div>
     </section>
   )

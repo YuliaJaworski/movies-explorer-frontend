@@ -14,9 +14,9 @@ function SavedMovies() {
     <main className="main">
       <SearchForm />
       <MoviesCardList>
-        <MoviesCard filmName='33 слова о дизайне' filmImage={filmDesign} filmDuration='1ч17м' />
-        <MoviesCard filmName='Киноальманах "100 лет дизайна"' filmImage={filmKino} filmDuration='1ч17м' />
-        <MoviesCard filmName='В погоне за Бенкси' filmImage={filmBanksi} filmDuration='1ч17м' />
+        <MoviesCard filmName='33 слова о дизайне' filmImage={filmDesign} filmDuration='1ч17м' nameButton='delete'/>
+        <MoviesCard filmName='Киноальманах "100 лет дизайна"' filmImage={filmKino} filmDuration='1ч17м' nameButton='delete' />
+        <MoviesCard filmName='В погоне за Бенкси' filmImage={filmBanksi} filmDuration='1ч17м' nameButton='delete' />
       </MoviesCardList>
     </main>
     <Footer />

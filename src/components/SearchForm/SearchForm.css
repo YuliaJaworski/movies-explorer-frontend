@@ -78,7 +78,7 @@
     background-color: #343434;
   } 
   
-  .search-film__name-button {
+  .search-form__name-button {
     padding-left: 12px;
     margin: 0;
     font-size: 12px;
@@ -120,7 +120,7 @@
       padding-left: 39px;
     }
 
-    .search-film__name-button {
+    .search-form__name-button {
       font-size: 11px;
     }
 

@@ -1,7 +1,6 @@
 import React from "react";
 import './Header.css';
 import { useLocation, Link } from 'react-router-dom';
-import headerLogo from '../../images/logo.svg';
 
 function Header({ onClick }) {
     const location = useLocation();
@@ -37,7 +36,7 @@ function Header({ onClick }) {
         )}
         {(page === '/signin' || page === '/signup') && (
           <div className="header__container-auth">
-            <img className='header__logo' src={headerLogo} alt='лого' />
+            <Link to ='/' className='header__logo' />
             <h2 className="header__title">{isLogin ? 'Рады видеть!' : 'Добро пожаловать!'}</h2>
           </div>
         )}

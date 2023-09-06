@@ -63,7 +63,7 @@ function Main() {
             У меня есть жена и дочь. Я люблю слушать музыку, а ещё увлекаюсь бегом. Недавно начал кодить. 
             С 2015 года работал в компании «СКБ Контур». После того, как прошёл курс по веб-разработке, 
             начал заниматься фриланс-заказами и ушёл с постоянной работы.</p>
-            <a className='about-me__link' href='#'>Github</a>
+            <a className='about-me__link' href='https://github.com/YuliaJaworski' target="_blank" rel="noopener noreferrer">Github</a>
           </div>
           <img className='about-me__photo' src={aboutMePhoto} alt='фото студента'/>
         </div>
@@ -71,9 +71,9 @@ function Main() {
       <section className='portfolio'>
         <h2 className='portfolio__title'>Портфолио</h2>
         <ul className='portfolio__link-container'>
-          <li className='portfolio__link' href='#'>Статичный сайт<img className='portfolio__image-link' src={arrowLink} alt='Иконка ссылки'/></li>
-          <li className='portfolio__link' href='#'>Адаптивный сайт<img className='portfolio__image-link' src={arrowLink} alt='Иконка ссылки'/></li>
-          <li className='portfolio__link' href='#'>Одностраничное приложение<img className='portfolio__image-link' src={arrowLink} alt='Иконка ссылки'/></li>
+          <li><a className='portfolio__link' href='https://yuliajaworski.github.io/how-to-learn/' target="_blank" rel="noopener noreferrer">Статичный сайт<img className='portfolio__image-link' src={arrowLink} alt='Иконка ссылки'/></a></li>
+          <li><a className='portfolio__link' href='https://yuliajaworski.github.io/russian-travel/' target="_blank" rel="noopener noreferrer">Адаптивный сайт<img className='portfolio__image-link' src={arrowLink} alt='Иконка ссылки'/></a></li>
+          <li><a className='portfolio__link' href='https://github.com/YuliaJaworski/react-mesto-api-full-gha' target="_blank" rel="noopener noreferrer">Одностраничное приложение<img className='portfolio__image-link' src={arrowLink} alt='Иконка ссылки'/></a></li>
         </ul>
       </section>
     </main>

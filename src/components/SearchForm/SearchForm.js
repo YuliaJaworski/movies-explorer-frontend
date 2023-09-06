@@ -19,7 +19,7 @@ function SearchForm() {
         <button onClick={handleClick} className={`search-form__button-short ${isActive ? '' : 'search-form__button-short_disactive'}`}>
           <div className={`search-form__button-round ${isActive ? "" : 'search-form__button-round_disactive'}`}></div>
         </button>
-        <p className="search-film__name-button">Короткометражки</p>
+        <p className="search-form__name-button">Короткометражки</p>
       </div>
     </section>
   )

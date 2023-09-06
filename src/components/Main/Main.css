@@ -239,6 +239,8 @@
   }
   
   .portfolio__link {
+    color: white;
+    text-decoration: none;
     width: 100%;
     border-bottom: 1px solid #424242;
     display: flex;

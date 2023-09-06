@@ -8,8 +8,8 @@ function Footer() {
       <div className='footer__container'>
         <p className="footer__copyright">&#64;2020</p>
         <div className='footer__name-project'>
-          <p className='footer__copyright'>Яндекс.Практикум</p>
-          <p className='footer__copyright'>Github</p>
+          <a className='footer__copyright' href='https://practicum.yandex.ru/' target="_blank" rel="noopener noreferrer">Яндекс.Практикум</a>
+          <a className='footer__copyright' href='https://github.com/' target="_blank" rel="noopener noreferrer">Github</a>
         </div>
       </div>
     </footer>

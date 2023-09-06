@@ -9,12 +9,19 @@
     position: absolute;
     top: 14px;
     right: 14px;
-    background-image: url(../../images/save3.svg);
     background-repeat: no-repeat;
     border: none;
     width: 21px;
     height: 21px;
     background-color: transparent;
+  }
+
+  .card__favorite_field_save {
+    background-image: url(../../images/save3.svg);
+  }
+
+  .card__favorite_field_delete {
+    background-image: url(../../images/delete.svg);
   }
   
   .card__image {
@@ -34,7 +41,7 @@
   }
   
   .card__name {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     margin: 0;
     max-width: 250px;
