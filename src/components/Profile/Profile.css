@@ -37,6 +37,11 @@
   
   .profile__user-data {
     font-weight: 400;
+    background: none;
+    border: none;
+    text-align: end;
+    color: white;
+    padding: 0;
   }
   
   .profile__button {

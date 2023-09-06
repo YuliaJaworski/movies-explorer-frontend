@@ -11,16 +11,16 @@ function SearchForm() {
 
   return (
     <section className="search-form">
-      <div className="search-form__search-bar">
+      <form className="search-form__search-bar">
         <input className="search-form__input" placeholder="Фильм" />
         <button className="search-form__button" />
-      </div>
-      <div className="search-form__short-film">
+      </form>
+      <form className="search-form__short-film">
         <button onClick={handleClick} className={`search-form__button-short ${isActive ? '' : 'search-form__button-short_disactive'}`}>
           <div className={`search-form__button-round ${isActive ? "" : 'search-form__button-round_disactive'}`}></div>
         </button>
         <p className="search-form__name-button">Короткометражки</p>
-      </div>
+      </form>
     </section>
   )
 }

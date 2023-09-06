@@ -6,14 +6,28 @@ function Profile() {
     <section className="profile">
       <div className="profile__container">
         <h2 className="profile__title">Привет, Виталий!</h2>
-        <ul className="profile__grid">
-          <li className="profile__data">Имя</li>
-          <li className="profile__data profile__user-data">Виталий</li>
-        </ul>
-        <ul className="profile__grid">
-          <li className="profile__data">E-mail</li>
-          <li className="profile__data profile__user-data">pochta@yandex.ru</li>
-        </ul>
+        <form name="form__profile" action="URL" method="post" noValidate>
+          <ul className="profile__grid">
+            <li className="profile__data">Имя</li>
+            <li className="profile__data"><input className="profile__data profile__user-data" 
+              defaultValue={`Виталий`} 
+              disabled
+              id="input-change-name"
+              type="text"
+              name="name" />
+            </li>
+          </ul>
+          <ul className="profile__grid">
+            <li className="profile__data">E-mail</li>
+            <li className="profile__data"><input className="profile__data profile__user-data" 
+              defaultValue={`pochta@yandex.ru`} 
+              disabled 
+              id="input-change-email"
+              type="email"
+              name="email"/>
+            </li>
+          </ul>
+        </form>
       </div>
       <div className="profile__button">
         <button className="profile__edit">Редактировать</button>

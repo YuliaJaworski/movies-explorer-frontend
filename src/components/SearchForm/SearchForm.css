@@ -21,12 +21,17 @@
     color: #8B8B8B;
     height: 50px;
   }
+
+  .search-form__input:focus {
+    border: none;
+    outline: none;
+  }
   
   .search-form__button {
     height: 44px;
     width: 44px;
     border-radius: 5px;
-    background: url(../../images/search-film.png);
+    background: url(../../images/search.svg);
     background-position: center;
     border: none;
     margin-left: 12px;

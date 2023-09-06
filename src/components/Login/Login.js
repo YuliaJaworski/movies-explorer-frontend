@@ -15,7 +15,7 @@ function Login() {
           className="form__input"
           name="email"
           required
-          value={'pochta@yandex.ru' || ""}
+          defaultValue={'pochta@yandex.ru' || ""}
         />
         <span id="input-name-error" className="form__span"></span>
         <p className="form__input-name">Пароль</p>
@@ -27,7 +27,7 @@ function Login() {
           required
           minLength="2"
           maxLength="40"
-          value={""}
+          defaultValue={""}
         />
         <span id="input-name-error" className="form__span"></span>
     </Form>
