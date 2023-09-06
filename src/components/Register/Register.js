@@ -8,7 +8,7 @@ function Register() {
       postscriptumNameLink="Войти" 
       buttonName="Зарегистрироваться"
       router="/signin"
-      name='register'>
+      >
         <p className="form__input-name">Имя</p>
         <input
           id="input-name"

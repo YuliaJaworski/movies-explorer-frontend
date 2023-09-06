@@ -217,6 +217,11 @@
     text-decoration: none;
     color: white;
   }
+
+  .about-me__photo {
+    object-fit: cover;
+    border-radius: 10px;
+  }
   
   .portfolio {
     max-width: 1140px;
@@ -403,15 +408,15 @@
       line-height: 26px;
     }
 
-    .promo__navtab:nth-of-type(2n) {
-        margin-left: 6px;
-        margin-right: 6px;
-      }
-
     .navtab:nth-of-type(2n) {
       margin-left: 0;
       margin-right: 0;
     }
+
+    .promo__navtab:nth-of-type(2n) {
+        margin-left: 6px;
+        margin-right: 6px;
+      }
 
     .promo__nav-container {
       padding-bottom: 17px;
@@ -504,6 +509,7 @@
 
     .about-me__container {
       flex-direction: column-reverse;
+      align-items: center;
       margin-top: 59px;
     }
 

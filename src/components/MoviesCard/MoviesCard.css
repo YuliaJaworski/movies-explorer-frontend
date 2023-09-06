@@ -112,6 +112,10 @@
       right: 10px;
     }
 
+    .card {
+      margin: 0 auto;
+    }
+
     .card__name {
       font-size: 12px;
     }

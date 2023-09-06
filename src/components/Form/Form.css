@@ -1,12 +1,10 @@
-.main-profile {
-    min-height: calc(100vh - 91px);
-  }
-
   .form {
     display: flex;
     flex-direction: column;
     max-width: 396px;
     margin: 0 auto;
+    height: calc(100vh - 218px);
+    justify-content: space-between;
   }
   
   .form__input-name {
@@ -24,15 +22,23 @@
   
   .form__input {
     color: white;
+    width: 100%;
     background-color: #2F2F2F;
     border: none;
     border-radius: 8px;
     padding: 16px;
     font-size: 13px;
+    box-sizing: border-box;
+  }
+
+  .form__btn-container {
+    padding-top: 30px;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 70px;
   }
   
   .form__button {
-    margin-top: 179px;
     background-color: #4285F4;
     color: white;
     padding-top: 13px;
@@ -46,10 +52,6 @@
 
   .form__button:hover {
     opacity: 60%;
-  }
-  
-  .form__button_type_register {
-    margin-top: 90px;
   }
   
   .form__postscriptum {
@@ -72,8 +74,12 @@
   }
 
   @media screen and (max-width: 768px) {
-    .main-profile {
-      min-height: calc(100vh - 74px);
+    .form {
+      height: calc(100vh - 380px);
+    }
+
+    .form__btn-container {
+      padding-bottom: 232px;
     }
   }
 
@@ -81,10 +87,11 @@
     .form {
       padding-left: 30px;
       padding-right: 30px;
+      height: calc(100vh - 253px);
     }
 
-    .form__button_type_register {
-      margin-top: 179px;
+    .form__btn-container {
+      padding-bottom: 30px;
     }
 
     .form__button {
@@ -93,9 +100,5 @@
 
     .form__postscriptum {
       font-size: 12px;
-    }
-
-    .form__button {
-      margin-top: 269px;
     }
   }

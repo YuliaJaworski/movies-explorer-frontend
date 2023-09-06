@@ -1,3 +1,10 @@
+.profile {
+  height: calc(100vh - 74px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .profile__title {
     text-align: center;
     margin: 0;
@@ -35,7 +42,8 @@
   .profile__button {
     display: flex;
     flex-direction: column;
-    padding-top: 220px;
+    padding-top: 50px;
+    padding-bottom: 70px;
   }
   
   .profile__edit {
@@ -72,7 +80,7 @@
     }
 
     .profile__button {
-        padding-top: 211px;
+        padding-bottom: 269px;
     }
   }
 
@@ -88,6 +96,6 @@
     }
 
     .profile__button {
-        padding-top: 380px;
+        padding-bottom: 40px;
     }
   }
