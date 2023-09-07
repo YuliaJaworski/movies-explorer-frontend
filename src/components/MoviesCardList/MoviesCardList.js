@@ -3,7 +3,7 @@ import './MoviesCardList.css';
 
 function MoviesCardList({ children }) {
   return (
-    <section className="cards">
+    <section className="cards" aria-label="Фильмы">
       <ul className="cards__container">
         {children}
       </ul>

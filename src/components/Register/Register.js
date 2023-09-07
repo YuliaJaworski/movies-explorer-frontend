@@ -11,7 +11,7 @@ function Register() {
       >
         <p className="form__input-name">Имя</p>
         <input
-          id="input-name"
+          id="input-register-name"
           type="text"
           className="form__input"
           name="name"
@@ -20,10 +20,10 @@ function Register() {
           maxLength="40"
           defaultValue={'Виталий' || ""}
         />
-        <span id="input-name-error" className="form__span"></span>
+        <span id="input-register-name-error" className="form__span"></span>
         <p className="form__input-name">E-mail</p>
         <input
-          id="input-email"
+          id="input-register-email"
           type="email"
           className="form__input"
           name="email"
@@ -32,10 +32,10 @@ function Register() {
           maxLength="40"
           defaultValue={'pochta@yandex.ru' || ""}
         />
-        <span id="input-name-error" className="form__span"></span>
+        <span id="input-register-email-error" className="form__span"></span>
         <p className="form__input-name">Пароль</p>
         <input
-          id="input-password"
+          id="input-register-password"
           type="password"
           className="form__input"
           name="password"
@@ -44,7 +44,7 @@ function Register() {
           maxLength="40"
           defaultValue={"1234567"}
         />
-        <span id="input-name-error" className="form__span"></span>
+        <span id="input-register-password-error" className="form__span"></span>
     </Form>
   )
 }

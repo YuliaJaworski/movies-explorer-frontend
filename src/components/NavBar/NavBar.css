@@ -15,7 +15,8 @@
 }
 
 .nav-link__container {
-  height: 100%;
+  min-height: 100vh;
+  justify-content: space-between;
   width: 520px;
   background-color: #202020;
   position: relative;
@@ -87,6 +88,7 @@
 }
 
 .nav-link_opened {
+    overflow-x: scroll;
     display: flex;
     visibility: visible;
     opacity: 1;

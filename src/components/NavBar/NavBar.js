@@ -4,7 +4,7 @@ import { NavLink, Link } from "react-router-dom";
 
 function NavBar({ isOpen, onClose }) {
   return (
-    <section className={`nav-link ${isOpen ? "nav-link_opened" : ""}`}>
+    <section className={`nav-link ${isOpen ? "nav-link_opened" : ""}`} aria-label="Навигация по странице">
       <div className="nav-link__container">
         <button className="nav-link__close" onClick={onClose} />
         <nav className="nav-link__link-container">

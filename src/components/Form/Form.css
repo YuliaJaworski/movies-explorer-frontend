@@ -3,7 +3,7 @@
     flex-direction: column;
     max-width: 396px;
     margin: 0 auto;
-    height: calc(100vh - 218px);
+    min-height: calc(100vh - 218px);
     justify-content: space-between;
   }
   
@@ -80,7 +80,7 @@
 
   @media screen and (max-width: 768px) {
     .form {
-      height: calc(100vh - 380px);
+      min-height: calc(100vh - 380px);
     }
 
     .form__btn-container {
@@ -92,7 +92,7 @@
     .form {
       padding-left: 30px;
       padding-right: 30px;
-      height: calc(100vh - 253px);
+      min-height: calc(100vh - 253px);
     }
 
     .form__btn-container {

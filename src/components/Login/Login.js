@@ -10,17 +10,17 @@ function Login() {
       router="/signup">
         <p className="form__input-name">E-mail</p>
         <input
-          id="input-email"
+          id="input-login-email"
           type="email"
           className="form__input"
           name="email"
           required
           defaultValue={'pochta@yandex.ru' || ""}
         />
-        <span id="input-name-error" className="form__span"></span>
+        <span id="input-login-name-error" className="form__span"></span>
         <p className="form__input-name">Пароль</p>
         <input
-          id="input-password"
+          id="input-login-password"
           type="password"
           className="form__input"
           name="password"
@@ -29,7 +29,7 @@ function Login() {
           maxLength="40"
           defaultValue={""}
         />
-        <span id="input-name-error" className="form__span"></span>
+        <span id="input-login-password-error" className="form__span"></span>
     </Form>
   )
 }
