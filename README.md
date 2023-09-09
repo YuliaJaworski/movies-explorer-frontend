@@ -1,1 +1,6 @@
-# movies-explorer-frontend
+# Проект "Movies-explorer"
+
+Выполнен фронтенд проекта с использованием React.
+
+#### Название макета - "dark-2". 
+

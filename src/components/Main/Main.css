@@ -1,0 +1,562 @@
+.promo {
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 20px;
+    border-radius: 10px;
+    background-color: #272727;
+  }
+  
+  .promo__title {
+    max-width: 730px;
+    text-align: center;
+    margin: 0 auto;
+    padding: 160px 0 151px;
+    font-size: 50px;
+    line-height: 58px;
+    font-weight: 400;
+  }
+  
+  .promo__nav-container {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 30px;
+    justify-content: center;
+  }
+  
+  .promo__navtab {
+    width: 96px;
+    height: 36px;
+    text-decoration: none;
+    text-align: center;
+    line-height: 36px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  
+  .navtab {
+    border: 0;
+    background-color: #303030;
+    border-radius: 10px;
+    color: white;
+  }
+  
+  .navtab:nth-of-type(2n) {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  
+  .about-project {
+    padding-top: 110px;
+    padding-bottom: 110px;
+    margin: 0 auto;
+    max-width: 1140px;
+  }
+  
+  .title {
+    width: 100%;
+    border-bottom: 1px solid #DADADA;
+    color: #FFFFFF;
+    padding-bottom: 24px;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: normal;
+    max-width: 1140px;
+    margin: 0 auto;
+    letter-spacing: -0.04em;
+  }
+  
+  .about-project__main-text {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0;
+    list-style: none;
+    margin-top: 70px;
+    margin-bottom: 110px;
+    row-gap: 26px;
+    column-gap: 40px;
+  }
+  
+  .about-project__header {
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    margin: 0;
+  }
+  
+  .about-project__subheading {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    margin: 0;
+    padding-top: 27px;
+  }
+  
+  .about-project__timing {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    justify-items: stretch;
+    padding: 0;
+    list-style: none;
+    margin: 0;
+    row-gap: 13px;
+  }
+  
+  .about-project__week {
+    background-color: #303030;
+    color: white;
+    text-align: center;
+    line-height: 36px;
+    font-size: 14px;
+  }
+  
+  .about-project__week:first-child {
+    background-color: #3ddc84;
+    color: black;
+  }
+  
+  .about-project__name-work {
+    text-align: center;
+    color: #8B8B8B;
+    letter-spacing: -0.06em;
+  }
+  
+  .techs {
+    background-color: #272727;
+    margin: 0 auto;
+    padding-top: 100px;
+    padding-bottom: 100px;
+  }
+  
+  .techs__subtitle {
+    max-width: 600px;
+    margin: 0 auto;
+    margin-top: 90px;
+    text-align: center;
+    font-size: 50px;
+    font-weight: 400;
+    letter-spacing: -0.04em;
+  }
+  
+  .techs__description {
+    max-width: 460px;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 26px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+  }
+  
+  .techs__container {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+  }
+  
+  .techs__navtab {
+    text-align: center;
+    line-height: 60px;
+    width: 90px;
+    height: 60px;
+    font-size: 14px;
+  }
+  
+  .about-me {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding-top: 94px;
+    padding-bottom: 100px;
+  }
+  
+  .about-me__container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 66px;
+    justify-content: space-between;
+  }
+  
+  .about-me__main-text {
+    max-width: 600px;
+  }
+  
+  .about-me__subtitle {
+    font-size: 50px;
+    line-height: 58px;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    letter-spacing: -0.04em;
+  }
+  
+  .about-me__description {
+    font-size: 18px;
+    line-height: 20px;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+    margin-top: 18px;
+    margin-bottom: 26px;
+  }
+  
+  .about-me__info {
+    font-size: 14px;
+    line-height: 22px;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 99px;
+  }
+  
+  .about-me__link {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+    text-decoration: none;
+    color: white;
+  }
+
+  .about-me__photo {
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  .portfolio {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding-bottom: 190px;
+  }
+  
+  .portfolio__title {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #8B8B8B;
+    margin: 0;
+  }
+  
+  .portfolio__link-container {
+    margin-top: 30px;
+    list-style: none;
+    padding: 0;
+  }
+  
+  .portfolio__link {
+    color: white;
+    text-decoration: none;
+    width: 100%;
+    border-bottom: 1px solid #424242;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 19px;
+    padding-top: 20px;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 50px;
+    cursor: pointer;
+    letter-spacing: -0.04em;
+  }
+  
+  .portfolio__link:last-child {
+    border: none;
+    padding-bottom: 0;
+  }
+
+  @media screen and (max-width: 1200px) {
+    .promo {
+        margin-left: 20px;
+        margin-right: 20px;
+      }
+    .about-project {
+      padding-left: 50px;
+      padding-right: 50px;
+    }
+    .techs {
+      padding-left: 50px;
+      padding-right: 50px;
+    }
+    .about-me {
+      padding-left: 50px;
+      padding-right: 50px;
+    }
+    .portfolio {
+      padding-left: 50px;
+      padding-right: 50px;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .promo__title {
+        max-width: 520px;
+        padding: 350px 0 314px;
+        font-size: 40px;
+        line-height: 52px;
+        letter-spacing: -0.04em;
+      }
+
+    .about-project {
+      padding-top: 90px;
+      padding-bottom: 90px;
+    }
+
+    .about-project__main-text {
+      row-gap: 24px;
+      column-gap: 30px;
+      margin-bottom: 93px;
+    }
+
+    .about-project__subheading {
+      font-size: 12px;
+      line-height: 18px;
+      padding-top: 24px;
+    }
+
+    .techs {
+      padding-top: 90px;
+      padding-bottom: 73px;
+    }
+
+    .techs__subtitle {
+      margin-top: 81px;
+    }
+
+    .techs__description {
+      margin-top: 18px;
+      letter-spacing: -0.04em;
+    }
+
+    .techs__container {
+      margin-top: 83px;
+    }
+
+    .techs__navtab {
+      line-height: 55px;
+      width: 84px;
+      height: 57px;
+      font-size: 12px;
+      letter-spacing: -0.04em;
+    }
+
+    .about-me {
+      padding-top: 90px;
+      padding-bottom: 90px;
+    }
+
+    .about-me__subtitle {
+      font-size: 40px;
+      letter-spacing: -0.04em;
+      line-height: 40px;
+    }
+
+    .about-me__main-text {
+      max-width: 360px;
+    }
+
+    .about-me__description {
+      font-size: 12px;
+      line-height: 18px;
+      margin-top: 16px;
+      margin-bottom: 20px;
+    }
+
+    .about-me__info {
+      font-size: 12px;
+      line-height: 18px;
+      margin-bottom: 85px;
+    }
+
+    .about-me__photo {
+      width: 255px;
+      height: 307px;
+    }
+
+    .portfolio {
+      padding-bottom: 154px;
+    }
+
+    .portfolio__link {
+      font-size: 28px;
+      line-height: 50px;
+      letter-spacing: -0.04em;
+    }
+
+    .portfolio__image-link {
+      padding-top: 5px;
+      padding-right: 5px;
+    }
+  }
+
+  @media screen and (max-width: 520px) {
+    .promo {
+      margin-top: 14px;
+      margin-left: 14px;
+      margin-right: 14px;
+    }
+    .promo__title {
+      font-size: 29px;
+      line-height: 37px;
+      max-width: 292px;
+      padding: 220px 0 212px;
+    }
+
+    .promo__navtab {
+      height: 26px;
+      width: 82px;
+      font-size: 10px;
+      line-height: 26px;
+    }
+
+    .navtab:nth-of-type(2n) {
+      margin-left: 0;
+      margin-right: 0;
+    }
+
+    .promo__navtab:nth-of-type(2n) {
+        margin-left: 6px;
+        margin-right: 6px;
+      }
+
+    .promo__nav-container {
+      padding-bottom: 17px;
+    }
+
+    .about-project {
+      padding-left: 18px;
+      padding-right: 18px;
+      padding-top: 71px;
+      padding-bottom: 70px;
+    }
+
+    .title {
+      font-size: 18px;
+      padding-bottom: 28px;
+    }
+
+    .about-project__main-text {
+      display: flex;
+      flex-direction: column;
+      margin-top: 62px;
+      margin-bottom: 60px;
+    }
+
+    .about-project__header {
+      font-size: 18px;
+    }
+
+    .about-project__text:first-of-type {
+      padding-bottom: 34px;
+    }
+
+    .about-project__subheading {
+      font-size: 11px;
+      line-height: 16px;
+      padding-top: 17px;
+    }
+
+    .about-project__timing {
+      grid-template-columns: 1fr 2fr;
+      row-gap: 9px;
+    }
+
+    .about-project__week {
+      font-size: 11px;
+      height: 35px;
+    }
+
+    .about-project__name-work {
+      font-size: 11px;
+    }
+
+    .techs {
+        padding-left: 18px;
+        padding-right: 18px;
+        padding-top: 72px;
+        padding-bottom: 70px;
+        background: none;
+      }
+
+    .techs__subtitle {
+      font-size: 30px;
+      margin-top: 61px;
+    }
+
+    .techs__description {
+      font-size: 11px;
+      line-height: 16px;
+      margin-top: 24px;
+    }
+
+    .techs__container {
+      flex-wrap: wrap;
+      justify-content: start;
+      max-width: 180px;
+      margin: 50px auto 0;
+    }
+
+    .techs__navtab:nth-of-type(2n) {
+        margin-left: 10px;
+        margin-bottom: 10px;
+      }
+
+    .about-me {
+      padding-left: 14px;
+      padding-right: 14px;
+      padding-top: 72px;
+      padding-bottom: 70px;
+    }
+
+    .about-me__container {
+      flex-direction: column-reverse;
+      align-items: center;
+      margin-top: 59px;
+    }
+
+    .about-me__photo {
+      width: 292px;
+      height: 352px;
+    }
+
+    .about-me__subtitle {
+      font-size: 30px;
+      margin-top: 38px;
+    }
+
+    .about-me__description {
+        font-size: 11px;
+    }
+
+    .about-me__info {
+      font-size: 11px;
+      line-height: 16px;
+      margin-bottom: 39px;
+    }
+
+    .portfolio {
+      padding-left: 14px;
+      padding-right: 14px;
+      padding-bottom: 132px;
+    }
+
+    .portfolio__title {
+      font-size: 14px;
+    }
+
+    .portfolio__link {
+      font-size: 18px;
+      line-height: 28px;
+    }
+
+    .portfolio__link-container {
+      margin-top: 21px;
+    }
+
+    .portfolio__image-link {
+      padding-right: 4px;
+      padding-bottom: 4px;
+      width: 10px;
+      overflow: hidden;
+      padding-top: 0;
+    }
+  }
