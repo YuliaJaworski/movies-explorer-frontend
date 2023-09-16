@@ -10,18 +10,31 @@ import Login from '../Login/Login';
 import Register from '../Register/Register';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import NavBar from '../NavBar/NavBar';
+import moviesApi from '../../utils.js/MoviesApi';
 
 function App() {
   const [ isNavBarOpen, setIsNavBarOpen ] = React.useState(null);
+  const [ movies, setMovies ] = React.useState([]);
 
+  // открыть навигацию по странице
   const closeNavBar = (isNavBarOpen) => setIsNavBarOpen(null);
+
+  // рендер карточек фильмов
+  React.useEffect(() => {
+    moviesApi
+      .getAllMovies()
+      .then((movies) => {
+        setMovies(movies);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <div className="page">
       <Header  onClick={setIsNavBarOpen}/>
       <Routes>
         <Route path='/' element={<Main />}/>
-        <Route path='/movies' element={<Movies />} />
+        <Route path='/movies' element={<Movies movies={movies} />} />
         <Route path='/saved-movies' element={<SavedMovies />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/signin' element={<Login />} />

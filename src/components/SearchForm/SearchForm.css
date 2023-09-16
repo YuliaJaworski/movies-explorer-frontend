@@ -20,6 +20,17 @@
     padding-left: 20px;
     color: #8B8B8B;
     height: 50px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+  }
+
+  .search-form__span {
+    color: #EE3465;
+    font-size: 13px;
+  }
+
+  .search-form__input-bar {
+    width: 100%;
   }
 
   .search-form__input:focus {
