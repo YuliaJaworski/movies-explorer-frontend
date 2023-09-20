@@ -5,8 +5,9 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 import Preloader from "../Preloader/Preloader";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
+import Loader from "../Loader/Loader";
 
-function Movies({ movies }) {
+function Movies({ movies, isLoading }) {
   function converterTime(duration) {
     const hours = Math.floor(duration / 60);
     const minutes = duration % 60;
@@ -21,7 +22,8 @@ function Movies({ movies }) {
   const [ visibleMovies, setVisibleMovies ] = React.useState(12);
   const [ widthWindow, setWidthWindow ] = React.useState(window.innerWidth); // ширина окна
   // отслеживать состояние страницы по время поиска фильмов
-  const [ searchIsChanging, setSearchIsChanging ] = React.useState(false); 
+  const [ searchIsChanging, setSearchIsChanging ] = React.useState(false);
+  // const [ shortMoviesIsActive, setShortMoviesIsActive ] = React.useState(false);
 
   // собирает значение инпута
   const handleSearchMovie = (evt) => {
@@ -29,6 +31,17 @@ function Movies({ movies }) {
     setSearchIsActive(true);
     setFilter([]);
     setSearchIsChanging(true);
+  }
+
+  const [ shortFilm, setShortFilm ] = React.useState([]);
+  const [ searchShortFilmIsActive, setSearchShortFilmIsActive ] = React.useState(false);
+
+  const filterShortMovies = (movies) => {
+      const shortMovies = movies.filter(function(item) {
+        return item.duration <= 40;
+      });
+      setShortFilm(shortMovies);
+      setSearchShortFilmIsActive(true);
   }
 
   // искать фильм 
@@ -84,21 +97,35 @@ function Movies({ movies }) {
   return (
     <>
     <main className="main">
-      <SearchForm searchSubmit={searchMovieSubmit} searchMovie={searchMovie} searchChange={handleSearchMovie} />
-      <MoviesCardList>
-        {searchIsActive && filter.length === 0 && !searchIsChanging && (
-          <h3 className="card__not-found">Ничего не найдено.</h3>
-        )}
-        {(searchIsActive ? filter : movies).slice(0, visibleMovies).map((movie) => (
-          <MoviesCard 
-            key={movie.id}
-            filmName={movie.nameRU} 
-            filmImage={`https://api.nomoreparties.co/${movie.image.url}`}
-            filmDuration={converterTime(movie.duration)}
-          />
-        ))}
-      </MoviesCardList>
-      <Preloader clickMoreLoad={handleMoreLoad} visibleMovies={visibleMovies} movies={searchIsActive ? filter : movies} />
+      <SearchForm 
+        searchSubmit={searchMovieSubmit} 
+          searchMovie={searchMovie} 
+          searchChange={handleSearchMovie} 
+          filterShortMovies={filterShortMovies} 
+          movies={movies}
+          filter={filter}
+          setSearchShortFilmIsActive={setSearchShortFilmIsActive}
+          searchIsActive={searchIsActive}
+      />
+      {isLoading ? <Loader /> : 
+      <>
+        <MoviesCardList>
+          {searchIsActive && (searchShortFilmIsActive ? shortFilm : filter).length === 0 && !searchIsChanging && (
+            <h3 className="card__not-found">Ничего не найдено.</h3>
+          )}
+          {(searchShortFilmIsActive
+            ? shortFilm : (searchIsActive ? filter : movies))
+            .slice(0, visibleMovies).map((movie) => (
+            <MoviesCard 
+              key={movie.id}
+              filmName={movie.nameRU} 
+              filmImage={`https://api.nomoreparties.co/${movie.image.url}`}
+              filmDuration={converterTime(movie.duration)}
+            />
+          ))}
+        </MoviesCardList>
+        <Preloader clickMoreLoad={handleMoreLoad} visibleMovies={visibleMovies} movies={(searchShortFilmIsActive ? shortFilm : (searchIsActive ? filter : movies))} />
+      </>}
     </main>
     <Footer />
     </>

@@ -15,12 +15,14 @@ import moviesApi from '../../utils.js/MoviesApi';
 function App() {
   const [ isNavBarOpen, setIsNavBarOpen ] = React.useState(null);
   const [ movies, setMovies ] = React.useState([]);
+  const [ isLoading, setIsLoading ] = React.useState(true);
 
   // открыть навигацию по странице
   const closeNavBar = (isNavBarOpen) => setIsNavBarOpen(null);
 
   // рендер карточек фильмов
   React.useEffect(() => {
+    setIsLoading(false);
     moviesApi
       .getAllMovies()
       .then((movies) => {
@@ -34,7 +36,7 @@ function App() {
       <Header  onClick={setIsNavBarOpen}/>
       <Routes>
         <Route path='/' element={<Main />}/>
-        <Route path='/movies' element={<Movies movies={movies} />} />
+        <Route path='/movies' element={<Movies movies={movies} isLoading={isLoading} />} />
         <Route path='/saved-movies' element={<SavedMovies />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/signin' element={<Login />} />

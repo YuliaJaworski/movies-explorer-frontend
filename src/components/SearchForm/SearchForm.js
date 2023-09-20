@@ -2,12 +2,26 @@ import React from "react";
 import { useState } from "react";
 import './SearchForm.css';
 
-function SearchForm({ searchSubmit, searchMovie, searchChange }) {
+function SearchForm({ searchSubmit, searchMovie, searchChange, filterShortMovies, movies, filter,
+  setSearchShortFilmIsActive, searchIsActive }) {
   const [ isActive, setIsActive ] = useState(false);
   const [ isSubmit, setIsSubmit ] = useState(false);
 
   const handleClick = () => {
     setIsActive(!isActive);
+  }
+
+  const handleSortMoviesSubmit = (evt) => {
+    evt.preventDefault();
+    if (isActive) {
+      if (searchIsActive) {
+        filterShortMovies(filter);
+      } else {
+        filterShortMovies(movies);
+      }
+    } else {
+      setSearchShortFilmIsActive(false);
+    }
   }
 
   const handleSubmit = (evt) => {
@@ -35,8 +49,10 @@ function SearchForm({ searchSubmit, searchMovie, searchChange }) {
           </div>
           <button type="submit" className="search-form__button" />
       </form>
-      <form className="search-form__short-film">
-        <button type="button" onClick={handleClick} className={`search-form__button-short ${isActive ? '' : 'search-form__button-short_disactive'}`}>
+      <form className="search-form__short-film"  
+        noValidate
+        onSubmit={handleSortMoviesSubmit}>
+        <button type="submit" onClick={handleClick} className={`search-form__button-short ${isActive ? '' : 'search-form__button-short_disactive'}`}>
           <span className={`search-form__button-round ${isActive ? "" : 'search-form__button-round_disactive'}`}></span>
         </button>
         <p className="search-form__name-button">Короткометражки</p>
