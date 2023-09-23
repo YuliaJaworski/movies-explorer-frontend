@@ -7,23 +7,13 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
 import Loader from "../Loader/Loader";
 
-function Movies({ movies, isLoading }) {
-  function converterTime(duration) {
-    const hours = Math.floor(duration / 60);
-    const minutes = duration % 60;
-
-    return `${hours}ч${minutes}м`
-  }
-
-  const [ searchMovie, setSearchMovie ] = React.useState('');
+function Movies({ movies, isLoading, isSave, handleMoreLoad, visibleMovies, shortFilm, filterShortMovies, searchShortFilmIsActive, setSearchShortFilmIsActive }) {
   const [ filter, setFilter ] = React.useState([]); // найденные фильмы
   // отслеживать показ фильмов из массива или фильтрованных фильмов
   const [ searchIsActive, setSearchIsActive ] = React.useState(false);
-  const [ visibleMovies, setVisibleMovies ] = React.useState(12);
-  const [ widthWindow, setWidthWindow ] = React.useState(window.innerWidth); // ширина окна
   // отслеживать состояние страницы по время поиска фильмов
   const [ searchIsChanging, setSearchIsChanging ] = React.useState(false);
-  // const [ shortMoviesIsActive, setShortMoviesIsActive ] = React.useState(false);
+  const [ searchMovie, setSearchMovie ] = React.useState(''); 
 
   // собирает значение инпута
   const handleSearchMovie = (evt) => {
@@ -31,17 +21,6 @@ function Movies({ movies, isLoading }) {
     setSearchIsActive(true);
     setFilter([]);
     setSearchIsChanging(true);
-  }
-
-  const [ shortFilm, setShortFilm ] = React.useState([]);
-  const [ searchShortFilmIsActive, setSearchShortFilmIsActive ] = React.useState(false);
-
-  const filterShortMovies = (movies) => {
-      const shortMovies = movies.filter(function(item) {
-        return item.duration <= 40;
-      });
-      setShortFilm(shortMovies);
-      setSearchShortFilmIsActive(true);
   }
 
   // искать фильм 
@@ -57,42 +36,6 @@ function Movies({ movies, isLoading }) {
     setFilter(filterMovies);
     setSearchIsActive(true);
   }
-
-  // прогружает фильмы в ограниченном колличестве
-  const handleMoreLoad = () => {
-    if (widthWindow <= 768) {
-      setVisibleMovies(visibleMovies + 2);
-    } else {
-      setVisibleMovies(visibleMovies + 3);
-    }
-  };
-
-  // отслеживает изменение ширины экрана
-  React.useEffect(() => {
-    const resizeWindow = () => {
-      setWidthWindow(window.innerWidth);
-    }
-    window.addEventListener('resize', resizeWindow);
-
-    return () => {
-      window.removeEventListener('resize', resizeWindow);
-    }
-  }, []);
-
-  // добавить контрольные точки
-  React.useEffect(() => {
-    const calculateVisibleCards = () => {
-      if (widthWindow <= 500) {
-        setVisibleMovies(5);
-      } else if (widthWindow <= 768) {
-        setVisibleMovies(8);
-      } else {
-        setVisibleMovies(12);
-      }
-    };
-
-    calculateVisibleCards();
-  }, [widthWindow, searchMovie]);
 
   return (
     <>
@@ -120,7 +63,9 @@ function Movies({ movies, isLoading }) {
               key={movie.id}
               filmName={movie.nameRU} 
               filmImage={`https://api.nomoreparties.co/${movie.image.url}`}
-              filmDuration={converterTime(movie.duration)}
+              filmDuration={movie.duration}
+              nameButton={isSave ? 'save' : 'add-film'}
+              textButton={isSave ? '' : 'Сохранить'}
             />
           ))}
         </MoviesCardList>

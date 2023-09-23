@@ -2,10 +2,10 @@ import React from "react";
 import './Form.css';
 import { Link } from "react-router-dom";
 
-function Form({children, postscriptumName, postscriptumNameLink, buttonName, router }) {
+function Form({children, postscriptumName, postscriptumNameLink, buttonName, router, handleSubmit }) {
   return (
     <section>
-      <form className="form" name="form__auth" action="URL" method="post" noValidate>
+      <form className="form" name="form__auth" action="URL" method="post" noValidate onSubmit={handleSubmit}>
         <div className="form__container">
           {children}
         </div>

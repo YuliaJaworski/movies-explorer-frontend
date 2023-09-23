@@ -23,6 +23,22 @@
   .card__favorite_field_delete {
     background-image: url(../../images/delete.svg);
   }
+
+  .card__favorite_field_add-film {
+    background-color: #313131;
+    color: white;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 9px;
+    border-radius: 30px;
+    width: 72px;
+    height: 21px;
+    opacity: 0;
+  }
+
+  .card:hover .card__favorite_field_add-film {
+    opacity: 100%;
+  }
   
   .card__image {
     width: 100%;
@@ -109,6 +125,10 @@
     .card-load {
       padding-bottom: 161px;
       padding-top: 17px;
+    }
+
+    .card__favorite_field_add-film {
+      opacity: 100%;
     }
   }
 

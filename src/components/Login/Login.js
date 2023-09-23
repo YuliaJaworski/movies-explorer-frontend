@@ -1,13 +1,35 @@
 import React from "react";
 import Form from "../Form/Form";
 
-function Login() {
+function Login({ handleLogin }) {
+  const [ formValue, setFormValue ] = React.useState({
+    email: "",
+    password: ""
+  })
+
+  const handleChange = (evt) => {
+    const { name, value } = evt.target;
+    setFormValue({
+      ...formValue,
+      [name]: value,
+    })
+  }
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+
+    const { email, password } = formValue;
+
+    handleLogin(email, password);
+  }
+
   return (
     <Form 
       postscriptumName="Ещё не зарегистрированы? " 
       postscriptumNameLink="Регистрация" 
       buttonName="Войти"
-      router="/signup">
+      router="/signup"
+      handleSubmit={handleSubmit}>
         <p className="form__input-name">E-mail</p>
         <input
           id="input-login-email"
@@ -15,7 +37,7 @@ function Login() {
           className="form__input"
           name="email"
           required
-          defaultValue={'pochta@yandex.ru' || ""}
+          onChange={handleChange}
         />
         <span id="input-login-name-error" className="form__span"></span>
         <p className="form__input-name">Пароль</p>
@@ -27,7 +49,7 @@ function Login() {
           required
           minLength="2"
           maxLength="40"
-          defaultValue={""}
+          onChange={handleChange}
         />
         <span id="input-login-password-error" className="form__span"></span>
     </Form>

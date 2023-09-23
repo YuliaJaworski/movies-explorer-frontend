@@ -1,7 +1,8 @@
 import React from "react";
 import './Profile.css';
 
-function Profile() {
+function Profile({ userInfo }) {
+  console.log(userInfo);
   return (
     <div className="main-profile">
     <section className="profile">
@@ -12,7 +13,7 @@ function Profile() {
             <li className="profile__data">Имя</li>
             <li className="profile__data">
               <input className="profile__data profile__user-data" 
-              defaultValue={`Виталий`} 
+              value={userInfo.name} 
               disabled
               id="input-change-name"
               type="text"
@@ -23,7 +24,7 @@ function Profile() {
             <li className="profile__data">E-mail</li>
             <li className="profile__data">
               <input className="profile__data profile__user-data" 
-              defaultValue={`pochta@yandex.ru`} 
+              value={userInfo.email} 
               disabled 
               id="input-change-email"
               type="email"
