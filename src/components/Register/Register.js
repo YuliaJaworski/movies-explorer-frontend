@@ -3,27 +3,88 @@ import Form from "../Form/Form";
 import mainApi from "../../utils.js/MainApi";
 
 function Register({handleLogin}) {
-  const [ formValue, setFormValue ] = React.useState({
-    name: "",
-    email: "", 
-    password: "",
-  })
+  const [ password, setPassword ] = React.useState();
+  const [ email, setEmail ] = React.useState();
+  const [ name, setName ] = React.useState();
+  const [ emailError, setEmailError ] = React.useState('Email не может быть пустым');
+  const [ passwordError, setPasswordError ] = React.useState('Пароль не может быть пустым');
+  const [ nameError, setNameError ] = React.useState('Имя не может быть пустым');
+  const [ passwordDirty, setPasswordDirty ] = React.useState(false);
+  const [ emailDirty, setEmailDirty ] = React.useState(false);
+  const [ nameDirty, setNameDirty ] = React.useState(false);
+  const [ isValid, setIsValid ] = React.useState(false);
+  const [ error, setError ] = React.useState('');
+  const [ errorIsClear, setErrorIsClear ] = React.useState(false);
 
-  function handleChange(evt) {
-    const {name, value} = evt.target;
+  React.useEffect(() => {
+    if (passwordError || emailError || nameError) {
+      setIsValid(false);
+    } else {
+      setIsValid(true);
+    }
+  }, [passwordError, emailError, nameError]);
 
-    setFormValue({ ...formValue, [name]: value });
+  const handleChangeEmail = (evt) => {
+    setEmail(evt.target.value);
+    const validatorEmail =
+    /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    if (!validatorEmail.test(String(evt.target.value).toLowerCase())) {
+      setEmailError('Некорректный email');
+      if (!evt.target.value) {
+        setEmailError('Имя не может быть пустым');
+      }
+    } else {
+      setEmailError('');
+    }
   }
 
-  function handleSubmit(evt) {
+  const handleChangePassword = (evt) => {
+    setPassword(evt.target.value);
+    if (!evt.target.value) {
+      setPasswordError('Поле с паролем должно быть заполнено');
+    } else {
+      setPasswordError('');
+    }
+  }
+
+  const handleChangeName = (evt) => {
+    setName(evt.target.value)
+    const validatorName = /^[a-zA-Zа-яА-ЯёЁ\s-]{2,40}$/;
+    if (!validatorName.test(String(evt.target.value).toLowerCase())) {
+      setNameError('Некорректные данные');
+      if (!evt.target.value) {
+        setNameError('Имя не может быть пустым');
+      }
+    } else {
+      setNameError('');
+    }
+  }
+
+  const handleSubmit = (evt) => {
+    setErrorIsClear(true);
     evt.preventDefault();
-    const { name, email, password } = formValue;
     mainApi
-      .register(name, email, password)
-      .then((res) => {
-        handleLogin(email, password);
-      })
-      .catch((err) => console.log(err));
+    .register(name, email, password)
+    .then((res) => {
+      handleLogin(email, password);
+    })
+    .catch(err => {
+      if (err === 'Ошибка: 409') {
+        setError('Пользователь с таким email уже существует.');
+      } else {
+        setError('При регистрации пользователя произошла ошибка');
+      }
+    });
+  }
+
+  function blurHandler(evt) {
+    if (evt.target.name === 'password') {
+      setPasswordDirty(true);
+    } else if (evt.target.name === 'email') {
+      setEmailDirty(true);
+    } else if (evt.target.name === 'name') {
+      setNameDirty(true);
+    }
   }
 
   return (
@@ -33,6 +94,7 @@ function Register({handleLogin}) {
       buttonName="Зарегистрироваться"
       router="/signin"
       handleSubmit={handleSubmit}
+      isValid={isValid}
       >
         <p className="form__input-name">Имя</p>
         <input
@@ -43,9 +105,11 @@ function Register({handleLogin}) {
           required
           minLength="2"
           maxLength="40"
-          onChange={handleChange}
+          value={name || ''}
+          onChange={handleChangeName}
+          onBlur={blurHandler}
         />
-        <span id="input-register-name-error" className="form__span"></span>
+        {(nameDirty && nameError) && <div id="input-edit-name" className="profile__error">{nameError}</div>}
         <p className="form__input-name">E-mail</p>
         <input
           id="input-register-email"
@@ -55,9 +119,11 @@ function Register({handleLogin}) {
           required
           minLength="2"
           maxLength="40"
-          onChange={handleChange}
+          value={email || ''}
+          onChange={handleChangeEmail}
+          onBlur={blurHandler}
         />
-        <span id="input-register-email-error" className="form__span"></span>
+        {(emailDirty && emailError) && <div id="input-edit-name" className="profile__error">{emailError}</div>}
         <p className="form__input-name">Пароль</p>
         <input
           id="input-register-password"
@@ -67,9 +133,12 @@ function Register({handleLogin}) {
           required
           minLength="2"
           maxLength="40"
-          onChange={handleChange}
+          value={password || ''}
+          onChange={handleChangePassword}
+          onBlur={blurHandler}
         />
-        <span id="input-register-password-error" className="form__span"></span>
+        {(passwordDirty && passwordError) && <div id="input-edit-name" className="profile__error">{passwordError}</div>}
+        {!errorIsClear && <div id="input-edit-name" className="profile__error">{error}</div>}
     </Form>
   )
 }

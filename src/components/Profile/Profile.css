@@ -108,6 +108,28 @@
     opacity: 60%;
   }
 
+  .profile__error {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    color: #EE3465;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 10px;
+  }
+
+  .profile__confirm {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+    color: #4285F4;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 10px;
+  }
+
   @media screen and (max-width: 768px) {
     .profile__title {
         padding-top: 237px;

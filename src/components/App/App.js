@@ -20,8 +20,9 @@ function App() {
   const [ movies, setMovies ] = React.useState([]); // массив фильмов
   const [ savedMovies, setSavedMovies ] = React.useState([]); // массив сохраненных фильмов
   const [ isLoading, setIsLoading ] = React.useState(true); // загрузка материалов страницы
-  const [ userInfo, setUserInfo ] = React.useState({ name: '', email: ''}); // передать данные пользователя
   const [currentUser, setCurrentUser] = React.useState({});
+  const [ error, setError ] = React.useState('');
+
 
   // переменные для отображения фильмов
   const [ visibleMovies, setVisibleMovies ] = React.useState(12);
@@ -71,10 +72,10 @@ function App() {
         if (data.token) {
           localStorage.setItem("jwt", data.token);
           navigate('/movies');
-          setUserInfo({name: data.name, email: data.email});
+          setCurrentUser(data);
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => setError(`Переданы некорректные данные ${err}`));
   }
 
   // добавить фильм в сохраненные
@@ -118,7 +119,13 @@ function App() {
       .then((user) => {
         setCurrentUser(user);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        if (err === 'Ошибка: 409') {
+          setError('Пользователь с таким email уже существует.');
+        } else {
+          setError('При обновлении пользователя произошла ошибка');
+        }
+      });
   } 
 
   // прогружает фильмы в ограниченном колличестве
@@ -173,11 +180,6 @@ function App() {
   const checkToken = () => {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
-      mainApi.getUser()
-        .then((user) => {
-          setUserInfo({name: user.name, email: user.email});
-        })
-        .catch(err => console.log(err));
     }
   } 
 
@@ -221,10 +223,11 @@ function App() {
           handleDeleteMovie={handleDeleteMovie}
           />} 
         />
-        <Route path='/profile' element={<Profile userInfo={userInfo} 
-        handleUpdateUser={handleUpdateUser} 
-        signOut={signOut} />} />
-        <Route path='/signin' element={<Login handleLogin={handleLogin} />} />
+        <Route path='/profile' element={<Profile 
+          handleUpdateUser={handleUpdateUser} 
+          signOut={signOut} 
+          serverError={error}/>} />
+        <Route path='/signin' element={<Login handleLogin={handleLogin} serverError={error} />} />
         <Route path='/signup' element={<Register handleLogin={handleLogin} />} />
         <Route path='*' element={<PageNotFound />} />
         </Routes>

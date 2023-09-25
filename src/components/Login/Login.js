@@ -1,26 +1,57 @@
 import React from "react";
 import Form from "../Form/Form";
 
-function Login({ handleLogin }) {
-  const [ formValue, setFormValue ] = React.useState({
-    email: "",
-    password: ""
-  })
+function Login({ handleLogin, serverError }) {
+  const [ password, setPassword ] = React.useState();
+  const [ email, setEmail ] = React.useState();
+  const [ emailError, setEmailError ] = React.useState('Email не может быть пустым');
+  const [ passwordError, setPasswordError ] = React.useState('Имя не может быть пустым');
+  const [ passwordDirty, setPasswordDirty ] = React.useState(false);
+  const [ emailDirty, setEmailDirty ] = React.useState(false);
+  const [ isValid, setIsValid ] = React.useState(false);
+  const [ errorIsClear, setErrorIsClear ] = React.useState(false);
 
-  const handleChange = (evt) => {
-    const { name, value } = evt.target;
-    setFormValue({
-      ...formValue,
-      [name]: value,
-    })
+  React.useEffect(() => {
+    if (passwordError || emailError) {
+      setIsValid(false);
+    } else {
+      setIsValid(true);
+    }
+  }, [passwordError, emailError]);
+
+  const handleChangeEmail = (evt) => {
+    setEmail(evt.target.value);
+    const validatorEmail =
+    /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    if (!validatorEmail.test(String(evt.target.value).toLowerCase())) {
+      setEmailError('Некорректный email');
+    } else {
+      setEmailError('');
+    }
+  }
+
+  const handleChangePassword = (evt) => {
+    setPassword(evt.target.value);
+    if (!evt.target.value) {
+      setPasswordError('Поле с паролем должно быть заполнено');
+    } else {
+      setPasswordError('');
+    }
   }
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-
-    const { email, password } = formValue;
-
     handleLogin(email, password);
+  }
+
+  function blurHandler(evt) {
+    if (evt.target.name === 'password') {
+      setPasswordDirty(true);
+      setErrorIsClear(true);
+    } else if (evt.target.name === 'email') {
+      setEmailDirty(true);
+      setErrorIsClear(true);
+    }
   }
 
   return (
@@ -29,17 +60,20 @@ function Login({ handleLogin }) {
       postscriptumNameLink="Регистрация" 
       buttonName="Войти"
       router="/signup"
-      handleSubmit={handleSubmit}>
+      handleSubmit={handleSubmit}
+      isValid={isValid}>
         <p className="form__input-name">E-mail</p>
         <input
           id="input-login-email"
           type="email"
           className="form__input"
           name="email"
+          value={email || ''}
           required
-          onChange={handleChange}
+          onChange={handleChangeEmail}
+          onBlur={blurHandler}
         />
-        <span id="input-login-name-error" className="form__span"></span>
+        {(emailDirty && emailError) && <div id="input-edit-name" className="form__error">{emailError}</div>}
         <p className="form__input-name">Пароль</p>
         <input
           id="input-login-password"
@@ -49,9 +83,12 @@ function Login({ handleLogin }) {
           required
           minLength="2"
           maxLength="40"
-          onChange={handleChange}
+          value={password || ''}
+          onChange={handleChangePassword}
+          onBlur={blurHandler}
         />
-        <span id="input-login-password-error" className="form__span"></span>
+        {(passwordDirty && passwordError) && <div id="input-edit-name" className="form__error">{passwordError}</div>}
+        {!errorIsClear && <div id="input-edit-name" className="form__error">{serverError}</div>}
     </Form>
   )
 }
