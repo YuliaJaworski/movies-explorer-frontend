@@ -36,15 +36,12 @@ function App() {
 
     // загрузить данные пользователя
     React.useEffect(() => {
-      const jwt = localStorage.getItem("jwt");
-      if (jwt) {
         mainApi.getUser()
           .then((user) => {
             setCurrentUser(user);
             setLoggedIn(true);
           })
           .catch(err => console.log(err));
-      }
     }, [loggedIn]);
 
   // рендер карточек фильмов
@@ -77,11 +74,11 @@ function App() {
   const handleLogin = (email, password) => {
     mainApi.login(email, password)
       .then((data) => {
-        console.log(data);
         if (data.token) {
           localStorage.setItem("jwt", data.token);
           navigate('/movies');
           setCurrentUser(data.data);
+          setLoggedIn(true);
         }
       })
       .catch(err => setError(`Переданы некорректные данные ${err}`));
@@ -127,6 +124,7 @@ function App() {
     mainApi.updateUser(name, email)
       .then((user) => {
         setCurrentUser(user);
+        console.log(user);
       })
       .catch(err => {
         if (err === 'Ошибка: 409') {
@@ -184,6 +182,13 @@ function App() {
   
     calculateVisibleCards();
   }, [widthWindow]);
+
+  React.useEffect(() => {
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      setLoggedIn(true);
+    }
+  }, [])
 
   function signOut() {
     localStorage.removeItem("jwt");
