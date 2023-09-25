@@ -2,7 +2,7 @@ import React from "react";
 import './MoviesCard.css';
 
 
-function MoviesCard({ movie, filmImage, filmName, filmDuration, changeCardStatus, isMovies, isSavedMovies }) {
+function MoviesCard({ movie, filmImage, filmName, filmDuration, trailer, changeCardStatus, isMovies, isSavedMovies }) {
   const [ buttonSaveIsActive, setButtonSaveIsActive ] = React.useState(false);
 
   function converterTime(duration) {
@@ -14,7 +14,6 @@ function MoviesCard({ movie, filmImage, filmName, filmDuration, changeCardStatus
 
   React.useEffect(() => {
     const statusSave = localStorage.getItem(movie.id);
-    console.log(statusSave, movie);
     if (statusSave === 'true') {
       setButtonSaveIsActive(true);
     } else {
@@ -40,7 +39,7 @@ function MoviesCard({ movie, filmImage, filmName, filmDuration, changeCardStatus
   return (
     <li className="card">
       <button type="button" className={cardButtonClassName} onClick={handleChangeMovieStatus}>{isMovies && (buttonSaveIsActive ? '' : 'Сохранить')}</button>
-      <img className="card__image" src={filmImage} alt="Обложка фильма"/>
+      <a href={trailer} target="_blank" rel="noopener noreferrer"><img className="card__image" src={filmImage} alt="Обложка фильма"/></a>
       <div className="card__description">
         <p className="card__name">{filmName}</p>
         <p className="card__length">{converterTime(filmDuration)}</p>

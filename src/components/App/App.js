@@ -14,6 +14,7 @@ import NavBar from '../NavBar/NavBar';
 import moviesApi from '../../utils.js/MoviesApi';
 import mainApi from '../../utils.js/MainApi';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import ProtectedRoute from '../ProtectedRoute';
 
 function App() {
   const [ isNavBarOpen, setIsNavBarOpen ] = React.useState(null); // открытие навигации по сайту
@@ -22,7 +23,7 @@ function App() {
   const [ isLoading, setIsLoading ] = React.useState(true); // загрузка материалов страницы
   const [currentUser, setCurrentUser] = React.useState({});
   const [ error, setError ] = React.useState('');
-
+  const [loggedIn, setLoggedIn] = React.useState(false);
 
   // переменные для отображения фильмов
   const [ visibleMovies, setVisibleMovies ] = React.useState(12);
@@ -35,34 +36,40 @@ function App() {
 
   // рендер карточек фильмов
   React.useEffect(() => {
-    setIsLoading(false);
-    moviesApi
-      .getAllMovies()
-      .then((movies) => {
-        setMovies(movies);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+    if (loggedIn) {
+      setIsLoading(false);
+      moviesApi
+        .getAllMovies()
+        .then((movies) => {
+          setMovies(movies);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [loggedIn]);
 
   // загрузить сохраненный карточки
   React.useEffect(() => {
-    setIsLoading(false);
-    mainApi.getSavedMovies()
-      .then((movies) => {
-        setSavedMovies(movies.reverse());
-        movies.map((item) => localStorage.setItem(item.movieId, 'true'));
-      })
+    if (loggedIn) {
+      setIsLoading(false);
+      mainApi.getSavedMovies()
+        .then((movies) => {
+          setSavedMovies(movies.reverse());
+          movies.map((item) => localStorage.setItem(item.movieId, 'true'));
+        })
       .catch(err => console.log(err));
-  }, []);
+    }
+  }, [loggedIn]);
 
   // загрузить данные пользователя
   React.useEffect(() => {
-    mainApi.getUser()
-      .then((user) => {
-        setCurrentUser(user);
-      })
-      .catch(err => console.log(err));
-  }, []);
+    if (loggedIn) {
+      mainApi.getUser()
+        .then((user) => {
+          setCurrentUser(user);
+        })
+        .catch(err => console.log(err));
+    }
+  }, [loggedIn, currentUser]);
 
   // логин
   const handleLogin = (email, password) => {
@@ -73,6 +80,7 @@ function App() {
           localStorage.setItem("jwt", data.token);
           navigate('/movies');
           setCurrentUser(data);
+          setLoggedIn(true);
         }
       })
       .catch(err => setError(`Переданы некорректные данные ${err}`));
@@ -180,6 +188,7 @@ function App() {
   const checkToken = () => {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
+      setLoggedIn(true);
     }
   } 
 
@@ -191,15 +200,18 @@ function App() {
     localStorage.removeItem("jwt");
     movies.map(item => localStorage.removeItem(item.id));
     navigate("/signin");
+    localStorage.removeItem('search');
   }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header  onClick={setIsNavBarOpen}/>
+        <Header  onClick={setIsNavBarOpen} loggedIn={loggedIn}/>
         <Routes>
           <Route path='/' element={<Main />}/>
-          <Route path='/movies' element={<Movies 
+          <Route path='/movies' element={<ProtectedRoute
+            element={Movies} 
+            loggedIn={loggedIn}
             movies={movies} 
             isLoading={isLoading} 
             handleMoreLoad={handleMoreLoad}
@@ -211,7 +223,9 @@ function App() {
             addMovies={handleAddMoviesSubmit}
             />} 
           />
-        <Route path='/saved-movies' element={<SavedMovies 
+        <Route path='/saved-movies' element={<ProtectedRoute 
+          loggedIn={loggedIn}
+          element={SavedMovies}
           savedMovies={savedMovies}
           isLoading={isLoading}
           handleMoreLoad={handleMoreLoad}
@@ -223,7 +237,9 @@ function App() {
           handleDeleteMovie={handleDeleteMovie}
           />} 
         />
-        <Route path='/profile' element={<Profile 
+        <Route path='/profile' element={<ProtectedRoute 
+          loggedIn={loggedIn}
+          element={Profile}
           handleUpdateUser={handleUpdateUser} 
           signOut={signOut} 
           serverError={error}/>} />

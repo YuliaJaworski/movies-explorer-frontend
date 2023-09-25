@@ -21,6 +21,7 @@ function Movies({ movies, isLoading, isSave, handleMoreLoad, visibleMovies, shor
     setSearchIsActive(true);
     setFilter([]);
     setSearchIsChanging(true);
+    localStorage.setItem('search', evt.target.value);
   }
 
   // искать фильм 
@@ -65,6 +66,7 @@ function Movies({ movies, isLoading, isSave, handleMoreLoad, visibleMovies, shor
               filmName={movie.nameRU} 
               filmImage={`https://api.nomoreparties.co/${movie.image.url}`}
               filmDuration={movie.duration}
+              trailer={movie.trailerLink}
               changeCardStatus={addMovies}
               isMovies={true}
               isSavedMovies={false}

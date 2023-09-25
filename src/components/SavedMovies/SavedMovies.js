@@ -25,7 +25,6 @@ function SavedMovies({
   // отслеживать состояние страницы по время поиска фильмов
   const [ searchIsChanging, setSearchIsChanging ] = React.useState(false);
   const [ searchMovie, setSearchMovie ] = React.useState(''); 
-  console.log(savedMovies);
 
     // собирает значение инпута
     const handleSearchMovie = (evt) => {
@@ -75,7 +74,8 @@ function SavedMovies({
               movie={movie}
               filmName={movie.nameRU} 
               filmImage={movie.image} 
-              filmDuration={movie.duration} 
+              filmDuration={movie.duration}
+              trailer={movie.trailerLink} 
               isSavedMovies={true}
               isMovies={false}
               changeCardStatus={handleDeleteMovie}

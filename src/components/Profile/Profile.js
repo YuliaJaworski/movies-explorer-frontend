@@ -107,7 +107,7 @@ function Profile({ handleUpdateUser, signOut, serverError }) {
             <li className="profile__data">Имя</li>
             <li className="profile__data">
               <input className="profile__data profile__user-data" 
-              value={name || ''} 
+              value={isEdit ? name : currentUser.name} 
               disabled={!isEdit}
               id="input-change-name"
               required
