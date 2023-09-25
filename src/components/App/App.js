@@ -13,14 +13,15 @@ import PageNotFound from '../PageNotFound/PageNotFound';
 import NavBar from '../NavBar/NavBar';
 import moviesApi from '../../utils.js/MoviesApi';
 import mainApi from '../../utils.js/MainApi';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 function App() {
   const [ isNavBarOpen, setIsNavBarOpen ] = React.useState(null); // открытие навигации по сайту
   const [ movies, setMovies ] = React.useState([]); // массив фильмов
-  const [ saveMovies, setSaveMovies ] = React.useState([]); // массив сохраненных фильмов
+  const [ savedMovies, setSavedMovies ] = React.useState([]); // массив сохраненных фильмов
   const [ isLoading, setIsLoading ] = React.useState(true); // загрузка материалов страницы
-  const [ isSaveMovies, setIsSaveMovies ] = React.useState(false); // статус фильма
   const [ userInfo, setUserInfo ] = React.useState({ name: '', email: ''}); // передать данные пользователя
+  const [currentUser, setCurrentUser] = React.useState({});
 
   // переменные для отображения фильмов
   const [ visibleMovies, setVisibleMovies ] = React.useState(12);
@@ -38,9 +39,28 @@ function App() {
       .getAllMovies()
       .then((movies) => {
         setMovies(movies);
-        setIsSaveMovies(false);
       })
       .catch((err) => console.log(err));
+  }, []);
+
+  // загрузить сохраненный карточки
+  React.useEffect(() => {
+    setIsLoading(false);
+    mainApi.getSavedMovies()
+      .then((movies) => {
+        setSavedMovies(movies.reverse());
+        movies.map((item) => localStorage.setItem(item.movieId, 'true'));
+      })
+      .catch(err => console.log(err));
+  }, []);
+
+  // загрузить данные пользователя
+  React.useEffect(() => {
+    mainApi.getUser()
+      .then((user) => {
+        setCurrentUser(user);
+      })
+      .catch(err => console.log(err));
   }, []);
 
   // логин
@@ -57,7 +77,51 @@ function App() {
       .catch(err => console.log(err));
   }
 
-    // прогружает фильмы в ограниченном колличестве
+  // добавить фильм в сохраненные
+  const handleAddMoviesSubmit = (movie) => {
+    mainApi
+      .addMovies(
+        movie.country,
+        movie.director,
+        movie.duration,
+        movie.year,
+        movie.description,
+        `https://api.nomoreparties.co/${movie.image.url}`,
+        movie.trailerLink,
+        movie.nameRU,
+        movie.nameEN,
+        movie.id,
+        `https://api.nomoreparties.co/${movie.image.url}`
+      )
+      .then((newSavedMovie) => {
+        if (movie.id === newSavedMovie.movieId) {
+          setSavedMovies([newSavedMovie, ...savedMovies]);
+          localStorage.setItem(movie.id, 'true');
+        }
+      })
+      .catch(err => console.log(err));
+  }
+
+  // удалить фильм
+  const handleDeleteMovie = (deletedMovie) => {
+    mainApi
+      .deleteMovies(deletedMovie._id)
+      .then(() => {
+        setSavedMovies((movies) => movies.filter((c) => c._id !== deletedMovie._id));
+        localStorage.removeItem(deletedMovie.movieId);
+      })
+      .catch(err => console.log(err));
+  }
+
+  const handleUpdateUser = (name, email) => {
+    mainApi.updateUser(name, email)
+      .then((user) => {
+        setCurrentUser(user);
+      })
+      .catch(err => console.log(err));
+  } 
+
+  // прогружает фильмы в ограниченном колличестве
   const handleMoreLoad = () => {
     if (widthWindow <= 768) {
       setVisibleMovies(visibleMovies + 2);
@@ -69,6 +133,7 @@ function App() {
   const [ shortFilm, setShortFilm ] = React.useState([]);
   const [ searchShortFilmIsActive, setSearchShortFilmIsActive ] = React.useState(false);
 
+  // искать короткометражки
   const filterShortMovies = (movies) => {
     const shortMovies = movies.filter(function(item) {
       return item.duration <= 40;
@@ -108,10 +173,9 @@ function App() {
   const checkToken = () => {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
-      mainApi.getUser(jwt)
+      mainApi.getUser()
         .then((user) => {
           setUserInfo({name: user.name, email: user.email});
-          navigate('/movies');
         })
         .catch(err => console.log(err));
     }
@@ -121,30 +185,52 @@ function App() {
     checkToken();
   }, []);
 
+  function signOut() {
+    localStorage.removeItem("jwt");
+    movies.map(item => localStorage.removeItem(item.id));
+    navigate("/signin");
+  }
+
   return (
-    <div className="page">
-      <Header  onClick={setIsNavBarOpen}/>
-      <Routes>
-        <Route path='/' element={<Main />}/>
-        <Route path='/movies' element={<Movies 
-          movies={movies} 
-          isLoading={isLoading} 
-          isSave={isSaveMovies} 
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="page">
+        <Header  onClick={setIsNavBarOpen}/>
+        <Routes>
+          <Route path='/' element={<Main />}/>
+          <Route path='/movies' element={<Movies 
+            movies={movies} 
+            isLoading={isLoading} 
+            handleMoreLoad={handleMoreLoad}
+            visibleMovies={visibleMovies}
+            shortFilm={shortFilm}
+            searchShortFilmIsActive={searchShortFilmIsActive}
+            filterShortMovies={filterShortMovies} 
+            setSearchShortFilmIsActive={setSearchShortFilmIsActive}
+            addMovies={handleAddMoviesSubmit}
+            />} 
+          />
+        <Route path='/saved-movies' element={<SavedMovies 
+          savedMovies={savedMovies}
+          isLoading={isLoading}
           handleMoreLoad={handleMoreLoad}
           visibleMovies={visibleMovies}
-          shortFilm={shortFilm}
-          searchShortFilmIsActive={searchShortFilmIsActive}
+          shortFilm={shortFilm} 
           filterShortMovies={filterShortMovies} 
-          setSearchShortFilmIsActive={setSearchShortFilmIsActive}/>} 
+          setSearchShortFilmIsActive={setSearchShortFilmIsActive} 
+          searchShortFilmIsActive={searchShortFilmIsActive}
+          handleDeleteMovie={handleDeleteMovie}
+          />} 
         />
-        <Route path='/saved-movies' element={<SavedMovies />} />
-        <Route path='/profile' element={<Profile userInfo={userInfo} />} />
+        <Route path='/profile' element={<Profile userInfo={userInfo} 
+        handleUpdateUser={handleUpdateUser} 
+        signOut={signOut} />} />
         <Route path='/signin' element={<Login handleLogin={handleLogin} />} />
         <Route path='/signup' element={<Register handleLogin={handleLogin} />} />
         <Route path='*' element={<PageNotFound />} />
-      </Routes>
-      <NavBar isOpen={isNavBarOpen} onClose={closeNavBar}/>
-    </div>
+        </Routes>
+        <NavBar isOpen={isNavBarOpen} onClose={closeNavBar}/>
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 

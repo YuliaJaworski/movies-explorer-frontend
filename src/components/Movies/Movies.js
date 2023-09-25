@@ -7,7 +7,7 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
 import Loader from "../Loader/Loader";
 
-function Movies({ movies, isLoading, isSave, handleMoreLoad, visibleMovies, shortFilm, filterShortMovies, searchShortFilmIsActive, setSearchShortFilmIsActive }) {
+function Movies({ movies, isLoading, isSave, handleMoreLoad, visibleMovies, shortFilm, filterShortMovies, searchShortFilmIsActive, setSearchShortFilmIsActive, addMovies }) {
   const [ filter, setFilter ] = React.useState([]); // найденные фильмы
   // отслеживать показ фильмов из массива или фильтрованных фильмов
   const [ searchIsActive, setSearchIsActive ] = React.useState(false);
@@ -61,11 +61,13 @@ function Movies({ movies, isLoading, isSave, handleMoreLoad, visibleMovies, shor
             .slice(0, visibleMovies).map((movie) => (
             <MoviesCard 
               key={movie.id}
+              movie={movie}
               filmName={movie.nameRU} 
               filmImage={`https://api.nomoreparties.co/${movie.image.url}`}
               filmDuration={movie.duration}
-              nameButton={isSave ? 'save' : 'add-film'}
-              textButton={isSave ? '' : 'Сохранить'}
+              changeCardStatus={addMovies}
+              isMovies={true}
+              isSavedMovies={false}
             />
           ))}
         </MoviesCardList>

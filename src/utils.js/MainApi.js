@@ -12,12 +12,12 @@ class MainApi {
   }
 
   //загрузка информации пользователя
-  getUser(jwt) {
+  getUser() {
     return fetch(`${this._url}/users/me`, {
       method: "GET",
       headers: {
         "content-type": "application/json", 
-        Authorization: `Bearer ${jwt}`,
+        Authorization: `Bearer ${token}`,
       },
       credentials: "include",
     }).then((res) => this._getResponseData(res));
