@@ -107,7 +107,7 @@ function Profile({ handleUpdateUser, signOut, serverError }) {
             <li className="profile__data">Имя</li>
             <li className="profile__data">
               <input className="profile__data profile__user-data" 
-              value={isEdit ? name : currentUser.name} 
+              value={name || ''} 
               disabled={!isEdit}
               id="input-change-name"
               required
@@ -122,7 +122,7 @@ function Profile({ handleUpdateUser, signOut, serverError }) {
             <li className="profile__data">E-mail</li>
             <li className="profile__data">
               <input className="profile__data profile__user-data" 
-              defaultValue={email || ''} 
+              value={email || ''} 
               disabled={!isEdit}
               required
               id="input-change-email"

@@ -34,6 +34,19 @@ function App() {
   // открыть навигацию по странице
   const closeNavBar = (isNavBarOpen) => setIsNavBarOpen(null);
 
+    // загрузить данные пользователя
+    React.useEffect(() => {
+      const jwt = localStorage.getItem("jwt");
+      if (jwt) {
+        mainApi.getUser()
+          .then((user) => {
+            setCurrentUser(user);
+            setLoggedIn(true);
+          })
+          .catch(err => console.log(err));
+      }
+    }, [loggedIn]);
+
   // рендер карточек фильмов
   React.useEffect(() => {
     if (loggedIn) {
@@ -60,17 +73,6 @@ function App() {
     }
   }, [loggedIn]);
 
-  // загрузить данные пользователя
-  React.useEffect(() => {
-    if (loggedIn) {
-      mainApi.getUser()
-        .then((user) => {
-          setCurrentUser(user);
-        })
-        .catch(err => console.log(err));
-    }
-  }, [loggedIn, currentUser]);
-
   // логин
   const handleLogin = (email, password) => {
     mainApi.login(email, password)
@@ -79,8 +81,7 @@ function App() {
         if (data.token) {
           localStorage.setItem("jwt", data.token);
           navigate('/movies');
-          setCurrentUser(data);
-          setLoggedIn(true);
+          setCurrentUser(data.data);
         }
       })
       .catch(err => setError(`Переданы некорректные данные ${err}`));
@@ -183,18 +184,6 @@ function App() {
   
     calculateVisibleCards();
   }, [widthWindow]);
-
-  // проверка наличия токена
-  const checkToken = () => {
-    const jwt = localStorage.getItem('jwt');
-    if (jwt) {
-      setLoggedIn(true);
-    }
-  } 
-
-  React.useEffect(() => {
-    checkToken();
-  }, []);
 
   function signOut() {
     localStorage.removeItem("jwt");
