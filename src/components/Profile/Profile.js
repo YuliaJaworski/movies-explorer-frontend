@@ -14,8 +14,6 @@ function Profile({ handleUpdateUser, signOut, serverError }) {
   const [initialEmail, setInitialEmail] = React.useState('');
   const [ emailError, setEmailError ] = React.useState('');
   const [ nameError, setNameError ] = React.useState('');
-  const [ nameDirty, setNameDirty ] = React.useState(false);
-  const [ emailDirty, setEmailDirty ] = React.useState(false);
   const [ isValid, setIsValid ] = React.useState(false);
   const [ errorIsClear, setErrorIsClear ] = React.useState(false);
   const [ dataConfirm, setDataConfirm ] = React.useState(false);
@@ -79,14 +77,6 @@ function Profile({ handleUpdateUser, signOut, serverError }) {
     }
   }
 
-  function blurHandler(evt) {
-    if (evt.target.name === 'name') {
-      setNameDirty(true);
-    } else if (evt.target.name === 'email') {
-      setEmailDirty(true);
-    }
-  }
-
   function handleClick() {
     if (!isEdit) {
       setIsEdit(true);
@@ -113,11 +103,10 @@ function Profile({ handleUpdateUser, signOut, serverError }) {
               required
               type="text"
               name="name"
-              onBlur={blurHandler}
               onChange={handleUpdateUserName} />
             </li>
           </ul>
-          {(nameDirty && nameError) && <div id="input-edit-name" className="profile__error">{nameError}</div>}
+          {(nameError) && <div id="input-edit-name" className="profile__error">{nameError}</div>}
           <ul className="profile__grid">
             <li className="profile__data">E-mail</li>
             <li className="profile__data">
@@ -128,11 +117,10 @@ function Profile({ handleUpdateUser, signOut, serverError }) {
               id="input-change-email"
               type="email"
               name="email"
-              onBlur={blurHandler}
               onChange={handleUpdateUserEmail}/>
             </li>
           </ul>
-          {(emailDirty && emailError) && <div className="profile__error">{emailError}</div>}
+          {(emailError) && <div className="profile__error">{emailError}</div>}
       </div>
       {isEdit && 
       <button type="submit" className={buttonEditClassName} disabled={!isValid}>Сохранить</button>

@@ -9,9 +9,6 @@ function Register({handleLogin}) {
   const [ emailError, setEmailError ] = React.useState('Email не может быть пустым');
   const [ passwordError, setPasswordError ] = React.useState('Пароль не может быть пустым');
   const [ nameError, setNameError ] = React.useState('Имя не может быть пустым');
-  const [ passwordDirty, setPasswordDirty ] = React.useState(false);
-  const [ emailDirty, setEmailDirty ] = React.useState(false);
-  const [ nameDirty, setNameDirty ] = React.useState(false);
   const [ isValid, setIsValid ] = React.useState(false);
   const [ error, setError ] = React.useState('');
   const [ errorIsClear, setErrorIsClear ] = React.useState(false);
@@ -77,16 +74,6 @@ function Register({handleLogin}) {
     });
   }
 
-  function blurHandler(evt) {
-    if (evt.target.name === 'password') {
-      setPasswordDirty(true);
-    } else if (evt.target.name === 'email') {
-      setEmailDirty(true);
-    } else if (evt.target.name === 'name') {
-      setNameDirty(true);
-    }
-  }
-
   return (
     <Form 
       postscriptumName="Уже зарегистрированы? " 
@@ -107,9 +94,9 @@ function Register({handleLogin}) {
           maxLength="40"
           value={name || ''}
           onChange={handleChangeName}
-          onBlur={blurHandler}
+
         />
-        {(nameDirty && nameError) && <div id="input-edit-name" className="profile__error">{nameError}</div>}
+        {(nameError) && <div id="input-edit-name" className="profile__error">{nameError}</div>}
         <p className="form__input-name">E-mail</p>
         <input
           id="input-register-email"
@@ -121,9 +108,8 @@ function Register({handleLogin}) {
           maxLength="40"
           value={email || ''}
           onChange={handleChangeEmail}
-          onBlur={blurHandler}
         />
-        {(emailDirty && emailError) && <div id="input-edit-name" className="profile__error">{emailError}</div>}
+        {(emailError) && <div id="input-edit-name" className="profile__error">{emailError}</div>}
         <p className="form__input-name">Пароль</p>
         <input
           id="input-register-password"
@@ -135,9 +121,8 @@ function Register({handleLogin}) {
           maxLength="40"
           value={password || ''}
           onChange={handleChangePassword}
-          onBlur={blurHandler}
         />
-        {(passwordDirty && passwordError) && <div id="input-edit-name" className="profile__error">{passwordError}</div>}
+        {(passwordError) && <div id="input-edit-name" className="profile__error">{passwordError}</div>}
         {!errorIsClear && <div id="input-edit-name" className="profile__error">{error}</div>}
     </Form>
   )

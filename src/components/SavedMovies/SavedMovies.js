@@ -59,7 +59,8 @@ function SavedMovies({
         movies={savedMovies}
         filter={filter}
         setSearchShortFilmIsActive={setSearchShortFilmIsActive}
-        searchIsActive={searchIsActive}/>
+        searchIsActive={searchIsActive}
+        isMovies={false}/>
       {isLoading ? <Loader /> : 
       <>
         <MoviesCardList>
@@ -78,7 +79,7 @@ function SavedMovies({
               trailer={movie.trailerLink} 
               isSavedMovies={true}
               isMovies={false}
-              changeCardStatus={handleDeleteMovie}
+              handleDeleteMovie={handleDeleteMovie}
             />
           ))}
         </MoviesCardList>

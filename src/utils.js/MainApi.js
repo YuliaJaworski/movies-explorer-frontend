@@ -12,24 +12,24 @@ class MainApi {
   }
 
   //загрузка информации пользователя
-  getUser() {
+  getUser(jwt) {
     return fetch(`${this._url}/users/me`, {
       method: "GET",
       headers: {
         "content-type": "application/json", 
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${jwt}`,
       },
       credentials: "include",
     }).then((res) => this._getResponseData(res));
   }
 
   //редактировать профиль пользователя
-  updateUser(name, email) {
+  updateUser(name, email, jwt) {
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json", 
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${jwt}`,
       },
       body: JSON.stringify({
         name,
@@ -40,12 +40,12 @@ class MainApi {
   }
 
   // загрузить сохраненные фильмы
-  getSavedMovies() {
+  getSavedMovies(jwt) {
     return fetch(`${this._url}/movies`, {
       method: "GET",
       headers: {
         "content-type": "application/json", 
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${jwt}`,
       },
       credentials: "include",
     }).then((res) => this._getResponseData(res));
@@ -63,12 +63,13 @@ class MainApi {
     nameRU,
     nameEN,
     movieId,
-    thumbnail) {
+    thumbnail,
+    jwt) {
     return fetch(`${this._url}/movies`, {
       method: "POST",
       headers: {
         "content-type": "application/json", 
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${jwt}`,
       },
       body: JSON.stringify({
         country,
@@ -88,12 +89,12 @@ class MainApi {
   }
 
   // удалить фильм из сохраненных
-  deleteMovies(id) {
+  deleteMovies(id, jwt) {
     return fetch(`${this._url}/movies/${id}`, {
       method: "DELETE",
       headers: {
         "content-type": "application/json", 
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${jwt}`,
       },
       credentials: "include",
     }).then((res) => this._getResponseData(res));
@@ -121,8 +122,6 @@ class MainApi {
     }).then((res) => this._getResponseData(res));
   }
 }
-
-const token = localStorage.getItem('jwt');
 
 const mainApi = new MainApi({
   url: 'https://api.movies-explorer-jj.nomoredomainsicu.ru',

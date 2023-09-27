@@ -34,14 +34,18 @@ function App() {
   // открыть навигацию по странице
   const closeNavBar = (isNavBarOpen) => setIsNavBarOpen(null);
 
+  const jwt = localStorage.getItem("jwt");
+
     // загрузить данные пользователя
     React.useEffect(() => {
-        mainApi.getUser()
+      if (loggedIn) {
+        mainApi.getUser(jwt)
           .then((user) => {
             setCurrentUser(user);
             setLoggedIn(true);
           })
           .catch(err => console.log(err));
+      }
     }, [loggedIn]);
 
   // рендер карточек фильмов
@@ -61,7 +65,7 @@ function App() {
   React.useEffect(() => {
     if (loggedIn) {
       setIsLoading(false);
-      mainApi.getSavedMovies()
+      mainApi.getSavedMovies(jwt)
         .then((movies) => {
           setSavedMovies(movies.reverse());
           movies.map((item) => localStorage.setItem(item.movieId, 'true'));
@@ -74,11 +78,12 @@ function App() {
   const handleLogin = (email, password) => {
     mainApi.login(email, password)
       .then((data) => {
+        console.log(data);
         if (data.token) {
-          localStorage.setItem("jwt", data.token);
-          navigate('/movies');
           setCurrentUser(data.data);
+          localStorage.setItem("jwt", data.token);
           setLoggedIn(true);
+          navigate('/movies');
         }
       })
       .catch(err => setError(`Переданы некорректные данные ${err}`));
@@ -98,7 +103,8 @@ function App() {
         movie.nameRU,
         movie.nameEN,
         movie.id,
-        `https://api.nomoreparties.co/${movie.image.url}`
+        `https://api.nomoreparties.co/${movie.image.url}`,
+        jwt
       )
       .then((newSavedMovie) => {
         if (movie.id === newSavedMovie.movieId) {
@@ -112,7 +118,7 @@ function App() {
   // удалить фильм
   const handleDeleteMovie = (deletedMovie) => {
     mainApi
-      .deleteMovies(deletedMovie._id)
+      .deleteMovies(deletedMovie._id, jwt)
       .then(() => {
         setSavedMovies((movies) => movies.filter((c) => c._id !== deletedMovie._id));
         localStorage.removeItem(deletedMovie.movieId);
@@ -120,8 +126,15 @@ function App() {
       .catch(err => console.log(err));
   }
 
+    // удалить фильм на странице фильмы
+    const handleDeleteMovieinMovies = (deletedMovie) => {
+      const movie = savedMovies.find((element) => element.movieId === deletedMovie.id);
+
+      handleDeleteMovie(movie);
+    }
+
   const handleUpdateUser = (name, email) => {
-    mainApi.updateUser(name, email)
+    mainApi.updateUser(name, email, jwt)
       .then((user) => {
         setCurrentUser(user);
         console.log(user);
@@ -185,16 +198,18 @@ function App() {
 
   React.useEffect(() => {
     const jwt = localStorage.getItem("jwt");
+    console.log(jwt);
     if (jwt) {
       setLoggedIn(true);
     }
-  }, [])
+  }, [loggedIn]);
 
   function signOut() {
     localStorage.removeItem("jwt");
     movies.map(item => localStorage.removeItem(item.id));
-    navigate("/signin");
-    localStorage.removeItem('search');
+    navigate("/");
+    localStorage.removeItem('filterMovies');
+    localStorage.removeItem('inputValue');
   }
 
   return (
@@ -215,6 +230,7 @@ function App() {
             filterShortMovies={filterShortMovies} 
             setSearchShortFilmIsActive={setSearchShortFilmIsActive}
             addMovies={handleAddMoviesSubmit}
+            handleDeleteMovie={handleDeleteMovieinMovies}
             />} 
           />
         <Route path='/saved-movies' element={<ProtectedRoute 

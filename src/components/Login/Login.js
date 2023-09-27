@@ -4,10 +4,8 @@ import Form from "../Form/Form";
 function Login({ handleLogin, serverError }) {
   const [ password, setPassword ] = React.useState();
   const [ email, setEmail ] = React.useState();
-  const [ emailError, setEmailError ] = React.useState('Email не может быть пустым');
-  const [ passwordError, setPasswordError ] = React.useState('Имя не может быть пустым');
-  const [ passwordDirty, setPasswordDirty ] = React.useState(false);
-  const [ emailDirty, setEmailDirty ] = React.useState(false);
+  const [ emailError, setEmailError ] = React.useState('');
+  const [ passwordError, setPasswordError ] = React.useState('');
   const [ isValid, setIsValid ] = React.useState(false);
   const [ errorIsClear, setErrorIsClear ] = React.useState(false);
 
@@ -25,6 +23,9 @@ function Login({ handleLogin, serverError }) {
     /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     if (!validatorEmail.test(String(evt.target.value).toLowerCase())) {
       setEmailError('Некорректный email');
+      if (!evt.target.value) {
+        setEmailError('Поле email должно быть заполнено');
+      }
     } else {
       setEmailError('');
     }
@@ -41,17 +42,8 @@ function Login({ handleLogin, serverError }) {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
+    setErrorIsClear(true);
     handleLogin(email, password);
-  }
-
-  function blurHandler(evt) {
-    if (evt.target.name === 'password') {
-      setPasswordDirty(true);
-      setErrorIsClear(true);
-    } else if (evt.target.name === 'email') {
-      setEmailDirty(true);
-      setErrorIsClear(true);
-    }
   }
 
   return (
@@ -71,9 +63,8 @@ function Login({ handleLogin, serverError }) {
           value={email || ''}
           required
           onChange={handleChangeEmail}
-          onBlur={blurHandler}
         />
-        {(emailDirty && emailError) && <div id="input-edit-name" className="form__error">{emailError}</div>}
+        {(emailError) && <div id="input-edit-name" className="form__error">{emailError}</div>}
         <p className="form__input-name">Пароль</p>
         <input
           id="input-login-password"
@@ -85,9 +76,8 @@ function Login({ handleLogin, serverError }) {
           maxLength="40"
           value={password || ''}
           onChange={handleChangePassword}
-          onBlur={blurHandler}
         />
-        {(passwordDirty && passwordError) && <div id="input-edit-name" className="form__error">{passwordError}</div>}
+        {(passwordError) && <div id="input-edit-name" className="form__error">{passwordError}</div>}
         {!errorIsClear && <div id="input-edit-name" className="form__error">{serverError}</div>}
     </Form>
   )

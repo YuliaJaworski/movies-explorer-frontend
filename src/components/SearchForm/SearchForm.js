@@ -3,15 +3,25 @@ import { useState } from "react";
 import './SearchForm.css';
 
 function SearchForm({ searchSubmit, searchMovie, searchChange, filterShortMovies, movies, filter,
-  setSearchShortFilmIsActive, searchIsActive }) {
+  setSearchShortFilmIsActive, searchIsActive, isMovies, buttonMoviesIsActive, setButtonMoviesIsActive }) {
   const [ isActive, setIsActive ] = useState(false);
   const [ isSubmit, setIsSubmit ] = useState(false);
 
+  const filterMovies = localStorage.getItem('filterShortMovies');
+
   const handleClick = () => {
-    setIsActive(!isActive);
+    if (isMovies) {
+      if (filterMovies) {
+        setButtonMoviesIsActive(false);
+      } else {
+        setButtonMoviesIsActive(true);
+      }
+    } else {
+      setIsActive(!isActive);
+    }
   }
 
-  const handleSortMoviesSubmit = (evt) => {
+  const handleSortSavedMoviesSubmit = (evt) => {
     evt.preventDefault();
     if (isActive) {
       if (searchIsActive) {
@@ -21,6 +31,20 @@ function SearchForm({ searchSubmit, searchMovie, searchChange, filterShortMovies
       }
     } else {
       setSearchShortFilmIsActive(false);
+    }
+  }
+
+  const handleSortMoviesSubmit = (evt) => {
+    evt.preventDefault();
+    if (buttonMoviesIsActive) {
+      if (searchIsActive) {
+        filterShortMovies(filter);
+      } else {
+        filterShortMovies(movies);
+      }
+    } else {
+      setSearchShortFilmIsActive(false);
+      localStorage.removeItem('filterShortMovies');
     }
   }
 
@@ -51,9 +75,9 @@ function SearchForm({ searchSubmit, searchMovie, searchChange, filterShortMovies
       </form>
       <form className="search-form__short-film"  
         noValidate
-        onSubmit={handleSortMoviesSubmit}>
-        <button type="submit" onClick={handleClick} className={`search-form__button-short ${isActive ? '' : 'search-form__button-short_disactive'}`}>
-          <span className={`search-form__button-round ${isActive ? "" : 'search-form__button-round_disactive'}`}></span>
+        onSubmit={isMovies ? handleSortMoviesSubmit : handleSortSavedMoviesSubmit}>
+        <button type="submit" onClick={handleClick} className={`search-form__button-short ${(isMovies ? filterMovies : isActive) ? '' : 'search-form__button-short_disactive'}`}>
+          <span className={`search-form__button-round ${(isMovies ? filterMovies : isActive) ? "" : 'search-form__button-round_disactive'}`}></span>
         </button>
         <p className="search-form__name-button">Короткометражки</p>
       </form>
