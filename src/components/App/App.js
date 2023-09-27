@@ -92,6 +92,8 @@ function App() {
       .catch(err => setError(`Переданы некорректные данные ${err}`));
   }
 
+  const [ likeIsChange, setLikeIsChange ] = React.useState(false);
+
   // добавить фильм в сохраненные
   const handleAddMoviesSubmit = (movie) => {
     mainApi
@@ -113,9 +115,13 @@ function App() {
         if (movie.id === newSavedMovie.movieId) {
           setSavedMovies([newSavedMovie, ...savedMovies]);
           localStorage.setItem(movie.id, 'true');
+          setLikeIsChange(true);
         }
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        setLikeIsChange(true);
+      });
   }
 
   // удалить фильм
@@ -125,8 +131,12 @@ function App() {
       .then(() => {
         setSavedMovies((movies) => movies.filter((c) => c._id !== deletedMovie._id));
         localStorage.removeItem(deletedMovie.movieId);
+        setLikeIsChange(true);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        setLikeIsChange(true);
+      });
   }
 
     // удалить фильм на странице фильмы
@@ -236,6 +246,7 @@ function App() {
             setSearchShortFilmIsActive={setSearchShortFilmIsActive}
             addMovies={handleAddMoviesSubmit}
             handleDeleteMovie={handleDeleteMovieinMovies}
+            likeIsChange={likeIsChange}
             />} 
           />
         <Route path='/saved-movies' element={<ProtectedRoute 
@@ -250,6 +261,7 @@ function App() {
           setSearchShortFilmIsActive={setSearchShortFilmIsActive} 
           searchShortFilmIsActive={searchShortFilmIsActive}
           handleDeleteMovie={handleDeleteMovie}
+          likeIsChange={likeIsChange}
           />} 
         />
         <Route path='/profile' element={<ProtectedRoute 

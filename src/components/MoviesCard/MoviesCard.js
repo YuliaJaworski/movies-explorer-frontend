@@ -2,7 +2,7 @@ import React from "react";
 import './MoviesCard.css';
 
 
-function MoviesCard({ movie, filmImage, filmName, filmDuration, trailer, handleDeleteMovie, handleAddMovie, isMovies, isSavedMovies }) {
+function MoviesCard({ movie, filmImage, filmName, filmDuration, trailer, handleDeleteMovie, handleAddMovie, isMovies, isSavedMovies, likeIsChange }) {
   const [ buttonSaveIsActive, setButtonSaveIsActive ] = React.useState(false);
 
   function converterTime(duration) {
@@ -19,17 +19,21 @@ function MoviesCard({ movie, filmImage, filmName, filmDuration, trailer, handleD
     } else {
       setButtonSaveIsActive(false);
     }
-  }, [movie]);
+  }, [movie, likeIsChange]);
 
   const handleChangeMovieStatus = () => {
     if (isMovies) {
       const statusSave = localStorage.getItem(movie.id);
       if (statusSave === 'true') {
         handleDeleteMovie(movie);
-        setButtonSaveIsActive(false); 
+        if (likeIsChange) {
+          setButtonSaveIsActive(false);
+        } 
       } else {
         handleAddMovie(movie);
-        setButtonSaveIsActive(true);
+        if (likeIsChange) {
+          setButtonSaveIsActive(true);
+        }
       }
     } else {
       handleDeleteMovie(movie);

@@ -7,7 +7,7 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
 import Loader from "../Loader/Loader";
 
-function Movies({ movies, isLoading, isSave, handleMoreLoad, visibleMovies, addMovies, handleDeleteMovie }) {
+function Movies({ movies, isLoading, isSave, handleMoreLoad, visibleMovies, addMovies, handleDeleteMovie, likeIsChange }) {
   const [ filter, setFilter ] = React.useState([]); // найденные фильмы
   // отслеживать показ фильмов из массива или фильтрованных фильмов
   const [ searchIsActive, setSearchIsActive ] = React.useState(false);
@@ -123,6 +123,7 @@ function Movies({ movies, isLoading, isSave, handleMoreLoad, visibleMovies, addM
               handleDeleteMovie={handleDeleteMovie}
               isMovies={true}
               isSavedMovies={false}
+              likeIsChange={likeIsChange}
             />
           ))}
         </MoviesCardList>

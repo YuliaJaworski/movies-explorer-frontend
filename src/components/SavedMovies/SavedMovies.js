@@ -17,6 +17,7 @@ function SavedMovies({
   setSearchShortFilmIsActive, 
   searchShortFilmIsActive, 
   handleDeleteMovie,
+  likeIsChange
   }) {
 
   const [ filter, setFilter ] = React.useState([]); // найденные фильмы
@@ -80,6 +81,7 @@ function SavedMovies({
               isSavedMovies={true}
               isMovies={false}
               handleDeleteMovie={handleDeleteMovie}
+              likeIsChange={likeIsChange}
             />
           ))}
         </MoviesCardList>
