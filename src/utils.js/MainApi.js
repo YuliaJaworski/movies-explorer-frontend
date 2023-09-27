@@ -99,28 +99,6 @@ class MainApi {
       credentials: "include",
     }).then((res) => this._getResponseData(res));
   }
-
-  register(name, email, password) {
-    return fetch(`${this._url}/signup`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json", 
-      },
-      body: JSON.stringify({ name, email, password }),
-      credentials: "include",
-    }).then((res) => this._getResponseData(res));
-  }
-
-  login(email, password) {
-    return fetch(`${this._url}/signin`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json", 
-      },
-      body: JSON.stringify({ email, password }),
-      credentials: "include",
-    }).then((res) => this._getResponseData(res));
-  }
 }
 
 const mainApi = new MainApi({

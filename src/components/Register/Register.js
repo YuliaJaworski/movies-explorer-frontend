@@ -1,6 +1,6 @@
 import React from "react";
 import Form from "../Form/Form";
-import mainApi from "../../utils.js/MainApi";
+import * as auth from "../../utils.js/auth";
 
 function Register({handleLogin}) {
   const [ password, setPassword ] = React.useState();
@@ -60,7 +60,7 @@ function Register({handleLogin}) {
   const handleSubmit = (evt) => {
     setErrorIsClear(true);
     evt.preventDefault();
-    mainApi
+    auth
     .register(name, email, password)
     .then((res) => {
       handleLogin(email, password);

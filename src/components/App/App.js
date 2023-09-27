@@ -15,6 +15,7 @@ import moviesApi from '../../utils.js/MoviesApi';
 import mainApi from '../../utils.js/MainApi';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import ProtectedRoute from '../ProtectedRoute';
+import * as auth from "../../utils.js/auth";
 
 function App() {
   const [ isNavBarOpen, setIsNavBarOpen ] = React.useState(null); // открытие навигации по сайту
@@ -41,6 +42,7 @@ function App() {
       if (loggedIn) {
         mainApi.getUser(jwt)
           .then((user) => {
+            console.log(user);
             setCurrentUser(user);
             setLoggedIn(true);
           })
@@ -67,6 +69,7 @@ function App() {
       setIsLoading(false);
       mainApi.getSavedMovies(jwt)
         .then((movies) => {
+          console.log(movies);
           setSavedMovies(movies.reverse());
           movies.map((item) => localStorage.setItem(item.movieId, 'true'));
         })
@@ -76,7 +79,7 @@ function App() {
 
   // логин
   const handleLogin = (email, password) => {
-    mainApi.login(email, password)
+    auth.login(email, password)
       .then((data) => {
         console.log(data);
         if (data.token) {
@@ -201,8 +204,10 @@ function App() {
     console.log(jwt);
     if (jwt) {
       setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
     }
-  }, [loggedIn]);
+  }, [jwt]);
 
   function signOut() {
     localStorage.removeItem("jwt");
