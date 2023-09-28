@@ -1,13 +1,13 @@
 import React from "react";
 import './Profile.css';
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { useLocation } from 'react-router-dom';
 
-function Profile({ handleUpdateUser, signOut, serverError }) {
+function Profile({ handleUpdateUser, signOut, serverError, dataConfirm, setDataConfirm, isEdit, setIsEdit }) {
   const currentUser = React.useContext(CurrentUserContext);
   
   const [ name, setName ] = React.useState();
   const [ email, setEmail ] = React.useState();
-  const [ isEdit, setIsEdit ] = React.useState(false);
   const [ nameIsChange, setNameIsChange ] = React.useState(false); // состояние изменения инпута
   const [ emailIsChange, setEmailIsChange ] = React.useState(false);
   const [initialName, setInitialName] = React.useState('');
@@ -16,7 +16,8 @@ function Profile({ handleUpdateUser, signOut, serverError }) {
   const [ nameError, setNameError ] = React.useState('');
   const [ isValid, setIsValid ] = React.useState(false);
   const [ errorIsClear, setErrorIsClear ] = React.useState(false);
-  const [ dataConfirm, setDataConfirm ] = React.useState(false);
+
+  const location = useLocation();
   
   React.useEffect(() => {
     if (nameError || emailError) {
@@ -35,7 +36,21 @@ function Profile({ handleUpdateUser, signOut, serverError }) {
     setInitialEmail(currentUser.email);
   }, [currentUser]);
 
+  React.useEffect(() => {
+    if (serverError) {
+      setName(initialName);
+      setErrorIsClear(false);
+    } else {
+      setErrorIsClear(true);
+    }
+  }, [serverError, initialName]);
+
+  React.useEffect(() => {
+    setDataConfirm(false);
+  }, [location]);
+
   function handleUpdateUserName(evt) {
+    console.log(evt.target.value !== initialName);
     setName(evt.target.value);
     setNameIsChange(evt.target.value !== initialName);
     const validatorName = /^[a-zA-Zа-яА-ЯёЁ\s-]{2,40}$/;
@@ -66,21 +81,16 @@ function Profile({ handleUpdateUser, signOut, serverError }) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    if (isEdit) {
-      handleUpdateUser(name, email);
-      setIsEdit(false);
-    }
-    if (serverError) {
-      setName(initialName);
-    } else {
-      setDataConfirm(true);
-    }
+    handleUpdateUser(name, email);
+    setNameIsChange(false);
+    setEmailIsChange(false);
   }
 
   function handleClick() {
     if (!isEdit) {
       setIsEdit(true);
       setErrorIsClear(true);
+      setDataConfirm(false);
     }
   }
 
@@ -123,11 +133,13 @@ function Profile({ handleUpdateUser, signOut, serverError }) {
           {(emailError) && <div className="profile__error">{emailError}</div>}
       </div>
       {isEdit && 
-      <button type="submit" className={buttonEditClassName} disabled={!isValid}>Сохранить</button>
+      (<>
+        {!errorIsClear && <div className="profile__error">{serverError}</div>}
+        <button type="submit" className={buttonEditClassName} disabled={!isValid}>Сохранить</button>
+      </>)
       }
       </form>
       <div className="profile__button">
-        {!errorIsClear && <div className="profile__error">{serverError}</div>}
         {dataConfirm && <div className="profile__confirm">Данные изменены</div>}
         {!isEdit && <button className='profile__edit' onClick={handleClick}>Редактировать</button> }
         <button className="profile__exit" onClick={signOut}>{isEdit ? '' : 'Выйти из аккаунта'}</button>

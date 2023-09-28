@@ -42,7 +42,6 @@ function App() {
       if (loggedIn) {
         mainApi.getUser(jwt)
           .then((user) => {
-            console.log(user);
             setCurrentUser(user);
             setLoggedIn(true);
           })
@@ -69,9 +68,7 @@ function App() {
       setIsLoading(false);
       mainApi.getSavedMovies(jwt)
         .then((movies) => {
-          console.log(movies);
           setSavedMovies(movies.reverse());
-          movies.map((item) => localStorage.setItem(item.movieId, 'true'));
         })
       .catch(err => console.log(err));
     }
@@ -92,67 +89,64 @@ function App() {
       .catch(err => setError(`Переданы некорректные данные ${err}`));
   }
 
-  const [ likeIsChange, setLikeIsChange ] = React.useState(false);
-
-  // добавить фильм в сохраненные
-  const handleAddMoviesSubmit = (movie) => {
-    mainApi
-      .addMovies(
-        movie.country,
-        movie.director,
-        movie.duration,
-        movie.year,
-        movie.description,
-        `https://api.nomoreparties.co/${movie.image.url}`,
-        movie.trailerLink,
-        movie.nameRU,
-        movie.nameEN,
-        movie.id,
-        `https://api.nomoreparties.co/${movie.image.url}`,
-        jwt
-      )
-      .then((newSavedMovie) => {
-        if (movie.id === newSavedMovie.movieId) {
-          setSavedMovies([newSavedMovie, ...savedMovies]);
-          localStorage.setItem(movie.id, 'true');
-          setLikeIsChange(true);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        setLikeIsChange(true);
-      });
-  }
-
   // удалить фильм
   const handleDeleteMovie = (deletedMovie) => {
     mainApi
       .deleteMovies(deletedMovie._id, jwt)
       .then(() => {
         setSavedMovies((movies) => movies.filter((c) => c._id !== deletedMovie._id));
-        localStorage.removeItem(deletedMovie.movieId);
-        setLikeIsChange(true);
       })
       .catch(err => {
         console.log(err);
-        setLikeIsChange(true);
       });
   }
 
-    // удалить фильм на странице фильмы
-    const handleDeleteMovieinMovies = (deletedMovie) => {
-      const movie = savedMovies.find((element) => element.movieId === deletedMovie.id);
+  // добавить или удалить фильм с роута Movies
+  const handleCardLike = (card) => {
+    const movie = savedMovies.find((element) => element.movieId === card.id);
+    const isLiked = savedMovies.some((element) => element.movieId === card.id);
 
+    if (isLiked) {
       handleDeleteMovie(movie);
+    } else {
+      mainApi
+      .addMovies(
+        card.country,
+        card.director,
+        card.duration,
+        card.year,
+        card.description,
+        `https://api.nomoreparties.co/${card.image.url}`,
+        card.trailerLink,
+        card.nameRU,
+        card.nameEN,
+        card.id,
+        `https://api.nomoreparties.co/${card.image.url}`,
+        jwt
+      )
+      .then((newSavedMovie) => {
+          setSavedMovies([newSavedMovie, ...savedMovies]);
+      })
+      .catch(err => {
+        console.log(err);
+      });
     }
+  }
+
+  const [ dataConfirm, setDataConfirm ] = React.useState(false);
+  const [ isEdit, setIsEdit ] = React.useState(false);
 
   const handleUpdateUser = (name, email) => {
     mainApi.updateUser(name, email, jwt)
       .then((user) => {
         setCurrentUser(user);
-        console.log(user);
+        setDataConfirm(true);
+        setError('');
+        setIsEdit(false);
       })
       .catch(err => {
+        setDataConfirm(false);
+        setIsEdit(true);
         if (err === 'Ошибка: 409') {
           setError('Пользователь с таким email уже существует.');
         } else {
@@ -211,7 +205,6 @@ function App() {
 
   React.useEffect(() => {
     const jwt = localStorage.getItem("jwt");
-    console.log(jwt);
     if (jwt) {
       setLoggedIn(true);
     } else {
@@ -221,7 +214,6 @@ function App() {
 
   function signOut() {
     localStorage.removeItem("jwt");
-    movies.map(item => localStorage.removeItem(item.id));
     navigate("/");
     localStorage.removeItem('filterMovies');
     localStorage.removeItem('inputValue');
@@ -244,9 +236,8 @@ function App() {
             searchShortFilmIsActive={searchShortFilmIsActive}
             filterShortMovies={filterShortMovies} 
             setSearchShortFilmIsActive={setSearchShortFilmIsActive}
-            addMovies={handleAddMoviesSubmit}
-            handleDeleteMovie={handleDeleteMovieinMovies}
-            likeIsChange={likeIsChange}
+            changeMovieStatus={handleCardLike}
+            savedMovies={savedMovies}
             />} 
           />
         <Route path='/saved-movies' element={<ProtectedRoute 
@@ -261,7 +252,6 @@ function App() {
           setSearchShortFilmIsActive={setSearchShortFilmIsActive} 
           searchShortFilmIsActive={searchShortFilmIsActive}
           handleDeleteMovie={handleDeleteMovie}
-          likeIsChange={likeIsChange}
           />} 
         />
         <Route path='/profile' element={<ProtectedRoute 
@@ -269,7 +259,10 @@ function App() {
           element={Profile}
           handleUpdateUser={handleUpdateUser} 
           signOut={signOut} 
-          serverError={error}/>} />
+          serverError={error}
+          dataConfirm={dataConfirm}
+          setDataConfirm={setDataConfirm}
+          isEdit={isEdit} setIsEdit={setIsEdit} />} />
         <Route path='/signin' element={<Login handleLogin={handleLogin} serverError={error} />} />
         <Route path='/signup' element={<Register handleLogin={handleLogin} />} />
         <Route path='*' element={<PageNotFound />} />
