@@ -1,23 +1,70 @@
 import React from "react";
 import Form from "../Form/Form";
 
-function Login() {
+function Login({ handleLogin, serverError }) {
+  const [ password, setPassword ] = React.useState();
+  const [ email, setEmail ] = React.useState();
+  const [ emailError, setEmailError ] = React.useState('');
+  const [ passwordError, setPasswordError ] = React.useState('');
+  const [ isValid, setIsValid ] = React.useState(false);
+  const [ errorIsClear, setErrorIsClear ] = React.useState(false);
+
+  React.useEffect(() => {
+    if (passwordError || emailError) {
+      setIsValid(false);
+    } else {
+      setIsValid(true);
+    }
+  }, [passwordError, emailError]);
+
+  const handleChangeEmail = (evt) => {
+    setEmail(evt.target.value);
+    const validatorEmail =
+    /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    if (!validatorEmail.test(String(evt.target.value).toLowerCase())) {
+      setEmailError('Некорректный email');
+      if (!evt.target.value) {
+        setEmailError('Поле email должно быть заполнено');
+      }
+    } else {
+      setEmailError('');
+    }
+  }
+
+  const handleChangePassword = (evt) => {
+    setPassword(evt.target.value);
+    if (!evt.target.value) {
+      setPasswordError('Поле с паролем должно быть заполнено');
+    } else {
+      setPasswordError('');
+    }
+  }
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    setErrorIsClear(true);
+    handleLogin(email, password);
+  }
+
   return (
     <Form 
       postscriptumName="Ещё не зарегистрированы? " 
       postscriptumNameLink="Регистрация" 
       buttonName="Войти"
-      router="/signup">
+      router="/signup"
+      handleSubmit={handleSubmit}
+      isValid={isValid}>
         <p className="form__input-name">E-mail</p>
         <input
           id="input-login-email"
           type="email"
           className="form__input"
           name="email"
+          value={email || ''}
           required
-          defaultValue={'pochta@yandex.ru' || ""}
+          onChange={handleChangeEmail}
         />
-        <span id="input-login-name-error" className="form__span"></span>
+        {(emailError) && <div id="input-edit-name" className="form__error">{emailError}</div>}
         <p className="form__input-name">Пароль</p>
         <input
           id="input-login-password"
@@ -27,9 +74,11 @@ function Login() {
           required
           minLength="2"
           maxLength="40"
-          defaultValue={""}
+          value={password || ''}
+          onChange={handleChangePassword}
         />
-        <span id="input-login-password-error" className="form__span"></span>
+        {(passwordError) && <div id="input-edit-name" className="form__error">{passwordError}</div>}
+        {!errorIsClear && <div id="input-edit-name" className="form__error">{serverError}</div>}
     </Form>
   )
 }

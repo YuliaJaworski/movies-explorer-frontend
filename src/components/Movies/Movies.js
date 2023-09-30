@@ -1,44 +1,135 @@
 import React from "react";
 
-import filmDesign from '../../images/film1.png';
-import filmKino from '../../images/film2.png';
-import filmBanksi from '../../images/film3.png';
-import filmBaskia from '../../images/film4.png';
-import filmSvoboda from '../../images/film5.png';
-import filmBook from '../../images/film6.png';
-import filmGermany from '../../images/film7.png';
-import filmGimme from '../../images/film8.png';
-import filmGenise from '../../images/film9.png';
-import filmJump from '../../images/film10.png';
-import filmHarvy from '../../images/film11.png';
-import filmWave from '../../images/film12.png';
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import Preloader from "../Preloader/Preloader";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
+import Loader from "../Loader/Loader";
 
-function Movies() {
+function Movies({ movies, isLoading, isSave, handleMoreLoad, visibleMovies, changeMovieStatus, savedMovies }) {
+  const [ filter, setFilter ] = React.useState([]); // найденные фильмы
+  // отслеживать показ фильмов из массива или фильтрованных фильмов
+  const [ searchIsActive, setSearchIsActive ] = React.useState(false);
+  // отслеживать состояние страницы по время поиска фильмов
+  const [ searchIsChanging, setSearchIsChanging ] = React.useState(false);
+  const [ searchMovie, setSearchMovie ] = React.useState('');
+  const [ isLocalStorageLoaded, setIsLocalStorageLoaded ] = React.useState(false);
+
+  const [ shortFilm, setShortFilm ] = React.useState([]);
+  const [ searchShortFilmIsActive, setSearchShortFilmIsActive ] = React.useState(false);
+  const [ buttonMoviesIsActive, setButtonMoviesIsActive ] = React.useState(false);
+
+  // искать короткометражки
+  const filterShortMovies = (movies) => {
+    const shortMovies = movies.filter(function(item) {
+      return item.duration <= 40;
+    });
+    setShortFilm(shortMovies);
+    setSearchShortFilmIsActive(true);
+
+    const storageMovies = localStorage.getItem('filterShortMovies');
+    if(!storageMovies || (JSON.parse(storageMovies) !== shortMovies)) {
+      localStorage.setItem('filterShortMovies', JSON.stringify(shortMovies));
+    }
+  }
+
+  React.useEffect(() => {
+    const filterMovies = localStorage.getItem('filterShortMovies');
+
+    if (filterMovies) {
+      setShortFilm(JSON.parse(filterMovies));
+      setSearchShortFilmIsActive(true);
+    }
+    setIsLocalStorageLoaded(true);
+  }, []);
+
+  React.useEffect(() => {
+    const filterMovies = localStorage.getItem('filterMovies');
+
+    if (filterMovies) {
+      setFilter(JSON.parse(filterMovies));
+      setSearchIsActive(true);
+      setSearchIsChanging(false);
+      const input = localStorage.getItem('inputValue');
+      setSearchMovie(input);
+    }
+
+    setIsLocalStorageLoaded(true);
+  }, []);
+
+  // собирает значение инпута
+  const handleSearchMovie = (evt) => {
+    setSearchMovie(evt.target.value);
+    setSearchIsActive(true);
+    setFilter([]);
+    setSearchIsChanging(true);
+    localStorage.setItem('inputValue', evt.target.value);
+  }
+
+  // искать фильм 
+  const searchMovieSubmit = (evt) => {
+    evt.preventDefault();
+
+    setSearchIsChanging(false);
+
+    const filterMovies = movies.filter((movie) => {
+      return movie.nameRU.toLowerCase().includes(searchMovie.toLowerCase());
+    })
+
+    setFilter(filterMovies);
+    setSearchIsActive(true);
+    const storageMovies = localStorage.getItem('filterMovies');
+    if(!storageMovies || (JSON.parse(storageMovies) !== filterMovies)) {
+      localStorage.setItem('filterMovies', JSON.stringify(filterMovies));
+    }
+  }
+
   return (
     <>
+    {isLocalStorageLoaded && (
     <main className="main">
-      <SearchForm />
-      <MoviesCardList>
-        <MoviesCard filmName='33 слова о дизайне' filmImage={filmDesign} filmDuration='1ч17м' nameButton='save' />
-        <MoviesCard filmName='Киноальманах "100 лет дизайна"' filmImage={filmKino} filmDuration='1ч17м' nameButton='save' />
-        <MoviesCard filmName='В погоне за Бенкси' filmImage={filmBanksi} filmDuration='1ч17м' nameButton='save' />
-        <MoviesCard filmName='Баския: Взрыв реальности' filmImage={filmBaskia} filmDuration='1ч17м' nameButton='save' />
-        <MoviesCard filmName='Бег это свобода' filmImage={filmSvoboda} filmDuration='1ч17м' nameButton='save' />
-        <MoviesCard filmName='Книготорговцы' filmImage={filmBook} filmDuration='1ч17м' nameButton='save' />
-        <MoviesCard filmName='Когда я думаю о Германии ночью' filmImage={filmGermany} filmDuration='1ч17м' nameButton='save' />
-        <MoviesCard filmName='Gimme Danger: История Игги и The Stooges' filmImage={filmGimme} filmDuration='1ч17м' nameButton='save' />
-        <MoviesCard filmName='Дженис: Маленькая девочка грустит' filmImage={filmGenise} filmDuration='1ч17м' nameButton='save' />
-        <MoviesCard filmName='Соберись перед прыжком' filmImage={filmJump} filmDuration='1ч17м' nameButton='save' />
-        <MoviesCard filmName='Пи Джей Харви: A dog called money' filmImage={filmHarvy} filmDuration='1ч17м' nameButton='save' />
-        <MoviesCard filmName='По волнам: Искусство звука в кино' filmImage={filmWave} filmDuration='1ч17м' nameButton='save' />
-      </MoviesCardList>
-      <Preloader />
+      <SearchForm 
+        searchSubmit={searchMovieSubmit} 
+          searchMovie={searchMovie} 
+          searchChange={handleSearchMovie} 
+          filterShortMovies={filterShortMovies} 
+          movies={movies}
+          filter={filter}
+          setSearchShortFilmIsActive={setSearchShortFilmIsActive}
+          searchIsActive={searchIsActive}
+          searchShortFilmIsActive={searchShortFilmIsActive}
+          isMovies={true} 
+          buttonMoviesIsActive={buttonMoviesIsActive}
+          setButtonMoviesIsActive={setButtonMoviesIsActive}
+      />
+      {isLoading ? <Loader /> : 
+      <>
+        <MoviesCardList>
+          {searchIsActive && (searchShortFilmIsActive ? shortFilm : filter).length === 0 && !searchIsChanging && (
+            <h3 className="card__not-found">Ничего не найдено.</h3>
+          )}
+          {(searchShortFilmIsActive
+            ? shortFilm : (searchIsActive ? filter : movies))
+            .slice(0, visibleMovies).map((movie) => (
+            <MoviesCard 
+              key={movie.id}
+              movie={movie}
+              filmName={movie.nameRU} 
+              filmImage={`https://api.nomoreparties.co/${movie.image.url}`}
+              filmDuration={movie.duration}
+              trailer={movie.trailerLink}
+              changeMovieStatus={changeMovieStatus}
+              isMovies={true}
+              isSavedMovies={false}
+              savedMovies={savedMovies}
+            />
+          ))}
+        </MoviesCardList>
+        <Preloader clickMoreLoad={handleMoreLoad} visibleMovies={visibleMovies} movies={(searchShortFilmIsActive ? shortFilm : (searchIsActive ? filter : movies))} />
+      </>}
     </main>
+    )}
     <Footer />
     </>
   )

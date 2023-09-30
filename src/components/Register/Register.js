@@ -1,13 +1,87 @@
 import React from "react";
 import Form from "../Form/Form";
+import * as auth from "../../utils.js/auth";
 
-function Register() {
+function Register({handleLogin}) {
+  const [ password, setPassword ] = React.useState();
+  const [ email, setEmail ] = React.useState();
+  const [ name, setName ] = React.useState();
+  const [ emailError, setEmailError ] = React.useState('Email не может быть пустым');
+  const [ passwordError, setPasswordError ] = React.useState('Пароль не может быть пустым');
+  const [ nameError, setNameError ] = React.useState('Имя не может быть пустым');
+  const [ isValid, setIsValid ] = React.useState(false);
+  const [ error, setError ] = React.useState('');
+  const [ errorIsClear, setErrorIsClear ] = React.useState(false);
+
+  React.useEffect(() => {
+    if (passwordError || emailError || nameError) {
+      setIsValid(false);
+    } else {
+      setIsValid(true);
+    }
+  }, [passwordError, emailError, nameError]);
+
+  const handleChangeEmail = (evt) => {
+    setEmail(evt.target.value);
+    const validatorEmail =
+    /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    if (!validatorEmail.test(String(evt.target.value).toLowerCase())) {
+      setEmailError('Некорректный email');
+      if (!evt.target.value) {
+        setEmailError('Имя не может быть пустым');
+      }
+    } else {
+      setEmailError('');
+    }
+  }
+
+  const handleChangePassword = (evt) => {
+    setPassword(evt.target.value);
+    if (!evt.target.value) {
+      setPasswordError('Поле с паролем должно быть заполнено');
+    } else {
+      setPasswordError('');
+    }
+  }
+
+  const handleChangeName = (evt) => {
+    setName(evt.target.value)
+    const validatorName = /^[a-zA-Zа-яА-ЯёЁ\s-]{2,40}$/;
+    if (!validatorName.test(String(evt.target.value).toLowerCase())) {
+      setNameError('Некорректные данные');
+      if (!evt.target.value) {
+        setNameError('Имя не может быть пустым');
+      }
+    } else {
+      setNameError('');
+    }
+  }
+
+  const handleSubmit = (evt) => {
+    setErrorIsClear(true);
+    evt.preventDefault();
+    auth
+    .register(name, email, password)
+    .then((res) => {
+      handleLogin(email, password);
+    })
+    .catch(err => {
+      if (err === 'Ошибка: 409') {
+        setError('Пользователь с таким email уже существует.');
+      } else {
+        setError('При регистрации пользователя произошла ошибка');
+      }
+    });
+  }
+
   return (
     <Form 
       postscriptumName="Уже зарегистрированы? " 
       postscriptumNameLink="Войти" 
       buttonName="Зарегистрироваться"
       router="/signin"
+      handleSubmit={handleSubmit}
+      isValid={isValid}
       >
         <p className="form__input-name">Имя</p>
         <input
@@ -18,9 +92,11 @@ function Register() {
           required
           minLength="2"
           maxLength="40"
-          defaultValue={'Виталий' || ""}
+          value={name || ''}
+          onChange={handleChangeName}
+
         />
-        <span id="input-register-name-error" className="form__span"></span>
+        {(nameError) && <div id="input-edit-name" className="profile__error">{nameError}</div>}
         <p className="form__input-name">E-mail</p>
         <input
           id="input-register-email"
@@ -30,9 +106,10 @@ function Register() {
           required
           minLength="2"
           maxLength="40"
-          defaultValue={'pochta@yandex.ru' || ""}
+          value={email || ''}
+          onChange={handleChangeEmail}
         />
-        <span id="input-register-email-error" className="form__span"></span>
+        {(emailError) && <div id="input-edit-name" className="profile__error">{emailError}</div>}
         <p className="form__input-name">Пароль</p>
         <input
           id="input-register-password"
@@ -42,9 +119,11 @@ function Register() {
           required
           minLength="2"
           maxLength="40"
-          defaultValue={"1234567"}
+          value={password || ''}
+          onChange={handleChangePassword}
         />
-        <span id="input-register-password-error" className="form__span"></span>
+        {(passwordError) && <div id="input-edit-name" className="profile__error">{passwordError}</div>}
+        {!errorIsClear && <div id="input-edit-name" className="profile__error">{error}</div>}
     </Form>
   )
 }

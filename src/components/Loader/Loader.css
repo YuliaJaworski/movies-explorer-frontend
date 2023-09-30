@@ -1,0 +1,43 @@
+.loader {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding-bottom: 26px;
+    padding-top: 64px;
+    display: flex;
+    justify-content: center;
+  }
+
+.loader__image {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 5px solid #FFF;
+  box-sizing: border-box;
+  border-bottom-color: transparent;
+  display: inline-block;
+  animation: rotation 0.5s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+}
+
+  @media screen and (max-width: 1200px) {
+    .loader {
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    .loader {
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-top: 35px;
+    }
+  }
