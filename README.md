@@ -1,12 +1,63 @@
-# Проект "Movies-explorer"
+# Movies-explorer
 
-Выполнен фронтенд проекта с использованием React.
+Дипломный проект на веб-факультете "Яндекс.Практикум". 
+Это сервис, в котором можно найти фильмы по запросу и сохранить в личном кабинете.
 
-#### Название макета - "dark-2". 
+## В разработке было выполнено:
 
-#### Фронтенд - https://movies-explorer-jj.nomoredomainsrocks.ru
+```bash
+- настроена инфраструктура и создан сервер на express;
+- подключена база данных, созданы схемы и модели ресурсов API;
+- реализовано логирование, аутентификация и авторизация на сервере;
+- бэкенд задеплоен на Яндекс Облако;
+- свёрстаны компоненты на React, разметка портирована в его формат;
+- описана логика и вёрстка страниц регистрации, логина, редактирования профиля, сохранённых фильмов;
+- реализованы асинхронные GET- и POST-запросы к API;
+- проработаны авторизованные и неавторизованные состояния, сохранение фильмов в профиле;
+- полученные фильмы фильтруются на стороне клиента.
+```
 
-#### Бэкенд - https://movies-explorer-jj.nomoredomainsrocks.ru
+## Инструменты и стек:
 
-#### Ссылка на пулреквест - https://github.com/YuliaJaworski/movies-explorer-frontend/pull/2
+```bash
+#HTML #CSS #React #Express #MongoDB #NodeJS #API  #Nginx #JWT #Postman
+```
 
+## Установка
+
+```bash
+1. Склонируйте репозиторий:
+
+git clone https://github.com/YuliaJaworski/movies-explorer-frontend.git
+
+2. Перейдите в директорию проекта:
+
+cd movies-explorer-frontend
+
+3. Установите зависимости:
+
+npm install
+```
+
+## Запуск
+```bash
+Запустите приложение в режиме разработки:
+
+npm start
+```
+
+## Сборка
+```bash
+Для создания оптимизированной сборки приложения используйте команду:
+
+npm run build
+
+Собранное приложение будет доступно в директории `build`.
+```
+
+## Ссылки
+
+#### [Адрес репозитория frontend](https://github.com/YuliaJaworski/movies-explorer-frontend)
+#### [Адрес репозитория backend](https://github.com/YuliaJaworski/movies-explorer-api)
+#### [Фронтенд](https://movies-explorer-jj.nomoredomainsrocks.ru)
+#### [Бэкенд](https://movies-explorer-jj.nomoredomainsrocks.ru)
