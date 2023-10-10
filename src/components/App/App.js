@@ -84,9 +84,16 @@ function App() {
           localStorage.setItem("jwt", data.token);
           setLoggedIn(true);
           navigate('/movies');
+          setError('');
         }
       })
-      .catch(err => setError(`Переданы некорректные данные ${err}`));
+      .catch(err => {
+        if (err === 'Ошибка: 401') {
+          setError('Неверно введены почта или пароль.');
+        } else {
+          setError('При авторизации пользователя произошла ошибка');
+        }
+      });
   }
 
   // удалить фильм

@@ -6,9 +6,9 @@ function Register({handleLogin}) {
   const [ password, setPassword ] = React.useState();
   const [ email, setEmail ] = React.useState();
   const [ name, setName ] = React.useState();
-  const [ emailError, setEmailError ] = React.useState('Email не может быть пустым');
-  const [ passwordError, setPasswordError ] = React.useState('Пароль не может быть пустым');
-  const [ nameError, setNameError ] = React.useState('Имя не может быть пустым');
+  const [ emailError, setEmailError ] = React.useState('');
+  const [ passwordError, setPasswordError ] = React.useState('');
+  const [ nameError, setNameError ] = React.useState('');
   const [ isValid, setIsValid ] = React.useState(false);
   const [ error, setError ] = React.useState('');
   const [ errorIsClear, setErrorIsClear ] = React.useState(false);
@@ -20,6 +20,14 @@ function Register({handleLogin}) {
       setIsValid(true);
     }
   }, [passwordError, emailError, nameError]);
+
+  React.useEffect(() => {
+    if (error) {
+      setErrorIsClear(false);
+    } else {
+      setErrorIsClear(true);
+    }
+  }, [error]);
 
   const handleChangeEmail = (evt) => {
     setEmail(evt.target.value);
@@ -64,6 +72,7 @@ function Register({handleLogin}) {
     .register(name, email, password)
     .then((res) => {
       handleLogin(email, password);
+      setError('');
     })
     .catch(err => {
       if (err === 'Ошибка: 409') {

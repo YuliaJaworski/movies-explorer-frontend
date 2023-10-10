@@ -17,6 +17,14 @@ function Login({ handleLogin, serverError }) {
     }
   }, [passwordError, emailError]);
 
+  React.useEffect(() => {
+    if (serverError) {
+      setErrorIsClear(false);
+    } else {
+      setErrorIsClear(true);
+    }
+  }, [serverError]);
+
   const handleChangeEmail = (evt) => {
     setEmail(evt.target.value);
     const validatorEmail =
